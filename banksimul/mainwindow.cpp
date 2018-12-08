@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QMessageBox>
+#include <QLibrary>
 #include "dll/rfiddll.h"
 #include "dll/pincodedll.h"
 
@@ -12,10 +13,37 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->pushButton->setEnabled(false);
 
+//    QLibrary library("rfiddll.dll");
+//    library.load();
+
+//    if (library.isLoaded()) {
+//        qDebug() << "success";
+
+//        // Resolves symbol to
+//        // void the_function_name()
+//        typedef void (*FunctionPrototype)();
+//        auto function1 = (FunctionPrototype)library.resolve("initialiseSerialPort");
+//        if (function1) function1();
+//        connect(library, SIGNAL(userLoginSignal(QString)), this, SLOT(login(QString)));
+//    }
+
     qDebug() << "UI initialising, loading DLL";
-    olioRfidDLL = new RfidDLL;
-    olioRfidDLL->initialiseSerialPort();
-    connect(olioRfidDLL, SIGNAL(userLoginSignal(QString)), this, SLOT(login(QString)));
+    try {
+        olioRfidDLL = new RfidDLL;
+        olioRfidDLL->initialiseSerialPort();
+        connect(olioRfidDLL, SIGNAL(userLoginSignal(QString)), this, SLOT(login(QString)));
+    } catch( std::bad_alloc& e ) {
+        QMessageBox msgBox;
+        msgBox.setText("Welcome");
+        msgBox.exec();
+      qDebug() << "1";
+    } catch(std::exception& e) {
+        QMessageBox msgBox;
+        msgBox.setText(e.what());
+        msgBox.exec();
+      qDebug() << e.what();
+    }
+
     qDebug() << "DLL loaded, waiting for user logon";
 
     // this to test the user login without actual rf reader

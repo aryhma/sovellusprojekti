@@ -9,7 +9,7 @@ RfidDLL::RfidDLL()
 void RfidDLL::initialiseSerialPort()
 {
     serial = new QSerialPort(this);
-    serial->setPortName("com3");
+    serial->setPortName("com3"); // set this to what is the real port
     serial->setBaudRate(QSerialPort::Baud9600);
     serial->setDataBits(QSerialPort::Data8);
     serial->setParity(QSerialPort::NoParity);

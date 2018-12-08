@@ -17,8 +17,9 @@ SOURCES += rfiddll.cpp
 HEADERS += rfiddll.h\
         rfiddll_global.h
 
+DESTDIR = "$$PWD/../run/"
+
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
-

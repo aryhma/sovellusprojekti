@@ -26,6 +26,8 @@ HEADERS += pincodedll.h\
 FORMS += \
     pincodedialog.ui
 
+DESTDIR = "$$PWD/../run/"
+
 unix {
     target.path = /usr/lib
     INSTALLS += target

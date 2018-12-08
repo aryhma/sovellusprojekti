@@ -37,15 +37,11 @@ FORMS += \
 LIBS += "$$PWD/dll/rfidDLL.dll"
 LIBS += "$$PWD/dll/pincodeDLL.dll"
 
-#correct method:
 INCLUDEPATH += "$$PWD/dll"
 
+DESTDIR = "$$PWD/../run/"
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-DISTFILES += \
-    rfidDLL.dll
-
