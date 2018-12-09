@@ -1,0 +1,86 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema opisk_t7muto00
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema opisk_t7muto00
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `opisk_t7muto00` DEFAULT CHARACTER SET utf8 ;
+USE `opisk_t7muto00` ;
+
+-- -----------------------------------------------------
+-- Table `opisk_t7muto00`.`asiakas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `opisk_t7muto00`.`asiakas` (
+  `idAsiakas` INT NOT NULL,
+  `etunimi` VARCHAR(45) NOT NULL,
+  `sukunimi` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idAsiakas`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `opisk_t7muto00`.`tili`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `opisk_t7muto00`.`tili` (
+  `idTili` INT NOT NULL,
+  `idAsiakas` INT NOT NULL,
+  `tiliNumero` INT NOT NULL,
+  `tiliSaldo` FLOAT NULL,
+  PRIMARY KEY (`idTili`, `idAsiakas`),
+  INDEX `fk_tili_asiakas1_idx` (`idAsiakas` ASC),
+  CONSTRAINT `fk_tili_asiakas1`
+    FOREIGN KEY (`idAsiakas`)
+    REFERENCES `opisk_t7muto00`.`asiakas` (`idAsiakas`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `opisk_t7muto00`.`kortti`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `opisk_t7muto00`.`kortti` (
+  `idkortti` INT NOT NULL,
+  `idTili` INT NOT NULL,
+  `korttiTunniste` VARCHAR(45) NOT NULL,
+  `korttiPin` INT NOT NULL,
+  PRIMARY KEY (`idkortti`, `idTili`),
+  INDEX `fk_kortti_tili_idx` (`idTili` ASC),
+  CONSTRAINT `fk_kortti_tili`
+    FOREIGN KEY (`idTili`)
+    REFERENCES `opisk_t7muto00`.`tili` (`idTili`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `opisk_t7muto00`.`tilitapahtumat`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `opisk_t7muto00`.`tilitapahtumat` (
+  `idTilitapahtumat` INT NOT NULL,
+  `idTili` INT NOT NULL,
+  `tilitapahtumatLaji` ENUM('otto', 'pano') NOT NULL,
+  `tilitapahtumatSumma` FLOAT NOT NULL,
+  `tilitapahtumatAika` TIMESTAMP NOT NULL,
+  PRIMARY KEY (`idTilitapahtumat`, `idTili`),
+  INDEX `fk_tilitapahtumat_tili1_idx` (`idTili` ASC),
+  CONSTRAINT `fk_tilitapahtumat_tili1`
+    FOREIGN KEY (`idTili`)
+    REFERENCES `opisk_t7muto00`.`tili` (`idTili`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
