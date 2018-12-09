@@ -36,6 +36,7 @@ FORMS += \
 
 LIBS += "$$PWD/dll/rfidDLL.dll"
 LIBS += "$$PWD/dll/pincodeDLL.dll"
+LIBS += "$$PWD/dll/DLLMySQL.dll"
 
 INCLUDEPATH += "$$PWD/dll"
 

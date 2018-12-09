@@ -16,20 +16,20 @@ DLLMySQL::DLLMySQL()
 
 bool DLLMySQL::mysqlconnection()
 {
-    qDebug() << "alustetaan kanta yhteys" << endl;
+    qDebug() << "alustetaan kanta yhteys";
     if (!createConnection()){
-        qDebug() << "MYSQLDLL -> Tietokanta yhteys ei onnistu.. Pieleen menee." << endl;
+        qDebug() << "MYSQLDLL -> Tietokanta yhteys ei onnistu.. Pieleen menee.";
         //miten saadaan softa kaatumaan, jos kanta yhteys ei onnistu, joko taalla tai paaohjelmassa??
         return false;
     }else{
-        qDebug() << "MYSQLDLL -> Tietokanta yhteys onnistui" << endl;
+        qDebug() << "MYSQLDLL -> Tietokanta yhteys onnistui";
         return true;
     }
 }
 
 bool DLLMySQL::validateCard(QString cardId)
 {
-    qDebug() << "MYSQLDLL sain kortin:" << cardId << endl;
+    qDebug() << "MYSQLDLL sain kortin:" << cardId;
 
     /*QSqlQuery haku;
     haku.prepare("select idTili from kortti where korttiTunniste=(:tunniste)");
@@ -59,3 +59,19 @@ bool DLLMySQL::validateCard(QString cardId)
 
 }
 
+bool DLLMySQL::validatePINCode(QString pin2, int tili)
+{
+    //QString tili2 = QString::number(tili);
+    qDebug() << "MYSQLDLL sain pinnin: " << pin2 << " ja tili ideen :" << tili;
+
+    QSqlTableModel *pin = new QSqlTableModel();
+    pin->setTable("kortti");
+    pin->setFilter(QString("idTili='%1' and korttiPin='%2'").arg(tili).arg(pin2));
+    pin->select();
+
+    int rivit = pin->rowCount();
+    //idTili = pin->record(0).value("idTili").toInt();
+    qDebug() << "DLLMySQL pin kyseselyn rivi maara: " << rivit;
+
+    return rivit;
+}

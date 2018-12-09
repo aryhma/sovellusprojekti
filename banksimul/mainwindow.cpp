@@ -5,6 +5,7 @@
 #include <QLibrary>
 #include "dll/rfiddll.h"
 #include "dll/pincodedll.h"
+#include "dll/dllmysql.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -46,6 +47,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     qDebug() << "DLL loaded, waiting for user logon";
 
+    //Kanta login testi
+    olioMysqlDLL = new DLLMySQL;
+    if (olioMysqlDLL->mysqlconnection()==false)
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Tietokanta yhteys epaonnistui!!");
+        msgBox.exec();
+    }
+
     // this to test the user login without actual rf reader
     connect(ui->pushButton_sim, SIGNAL (clicked()), olioRfidDLL, SLOT(simulateUserLoggedIn()));
 }
@@ -69,14 +79,32 @@ void MainWindow::validatePIN(QString pin)
 {
     qDebug() << "validating PIN" << pin;
 
-    if (!userID.isEmpty() && !pin.isEmpty())
+    int hyvaksytty = olioMysqlDLL->validatePINCode(pin,idTili);
+    if (hyvaksytty==1){
+        qDebug() << "PIN ok, welcome" << pin;
+        ui->label_PIN->setText(pin);
+        QMessageBox msgBox;
+        msgBox.setText("Welcome");
+        msgBox.exec();
+    }else
+    {
+        qDebug() << "PIN vaarin" << pin;
+        ui->label_PIN->setText(pin);
+        QMessageBox msgBox;
+        msgBox.setText("PINNI EI KELPAA !!!");
+        msgBox.exec();
+    }
+
+
+
+    /*if (!userID.isEmpty() && !pin.isEmpty())
     {
         qDebug() << "PIN ok, welcome" << pin;
         ui->label_PIN->setText(pin);
         QMessageBox msgBox;
         msgBox.setText("Welcome");
         msgBox.exec();
-    }
+    }*/
 }
 
 void MainWindow::login(QString id)
@@ -85,5 +113,9 @@ void MainWindow::login(QString id)
     ui->label->setText(id);
     ui->pushButton->setEnabled(true);
     userID = id;
+
+    //lahetetaan kortti id kantaan ja saadaan sielta tili id takaisin.
+    idTili = olioMysqlDLL->validateCard(id);
+    qDebug() << "MainWindow idTili: " << idTili << endl; //taman perusteella voidaan paatella onko kortti hyvaksytty. 0 ei ole yli nolla on.
 }
 

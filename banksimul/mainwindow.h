@@ -5,6 +5,7 @@
 
 #include "dll/rfiddll.h"
 #include "dll/pincodedll.h"
+#include "dll/DLLMySQL.h"
 
 namespace Ui {
 class MainWindow;
@@ -31,9 +32,11 @@ private:
     Ui::MainWindow *ui;
     RfidDLL *olioRfidDLL;
     PincodeDLL *olioPincodeDLL;
+    DLLMySQL *olioMysqlDLL;
 
     QString pin="";
     QString userID="";
+    int idTili;
 };
 
 #endif // MAINWINDOW_H
