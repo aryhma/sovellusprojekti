@@ -26,13 +26,16 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    signedindialog.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    signedindialog.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    signedindialog.ui
 
 LIBS += "$$PWD/dll/rfidDLL.dll"
 LIBS += "$$PWD/dll/pincodeDLL.dll"

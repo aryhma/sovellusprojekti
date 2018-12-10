@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 
+#include "signedindialog.h"
 #include "dll/rfiddll.h"
 #include "dll/pincodedll.h"
 #include "dll/DLLMySQL.h"
@@ -33,6 +34,7 @@ private:
     RfidDLL *olioRfidDLL;
     PincodeDLL *olioPincodeDLL;
     DLLMySQL *olioMysqlDLL;
+    SignedInDialog *olioSignedIn;
 
     QString pin="";
     QString userID="";

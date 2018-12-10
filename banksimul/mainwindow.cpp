@@ -65,6 +65,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete olioRfidDLL;
+    delete olioSignedIn;
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -83,14 +84,12 @@ void MainWindow::validatePIN(QString pin)
     int hyvaksytty = olioMysqlDLL->validatePINCode(pin,idTili);
     if (hyvaksytty==1){
         qDebug() << "PIN ok, welcome" << pin;
-       // ui->label_PIN->setText(pin);
-        QMessageBox msgBox;
-        msgBox.setText("Welcome");
-        msgBox.exec();
+        olioSignedIn = new SignedInDialog(this);
+        olioSignedIn->show();
+
     }else
     {
         qDebug() << "PIN vaarin" << pin;
-        ui->label_PIN->setText(pin);
         QMessageBox msgBox;
         msgBox.setText("PINNI EI KELPAA !!!");
         msgBox.exec();

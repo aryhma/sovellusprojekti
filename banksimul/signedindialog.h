@@ -17,6 +17,8 @@ public:
 
 private:
     Ui::SignedInDialog *ui;
+
+    QString Kayttaja = "";
 };
 
 #endif // SIGNEDINDIALOG_H

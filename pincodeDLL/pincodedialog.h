@@ -36,13 +36,15 @@ private slots:
 
     void on_btn9_clicked();
 
+    void lisaaMerkki();
+
 signals:
     void receivedPIN(QString);
 
 private:
     Ui::PincodeDialog *ui;
     QString pin="";
-    QString prv="";
+    QString prv="*";
 };
 
 #endif // PINCODEDIALOG_H
