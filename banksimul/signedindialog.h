@@ -2,7 +2,8 @@
 #define SIGNEDINDIALOG_H
 
 #include <QDialog>
-#include <dll/dllmysql.h>
+#include <dllmysql.h>
+//#include <dll/dllmysql.h>
 
 namespace Ui {
 class SignedInDialog;

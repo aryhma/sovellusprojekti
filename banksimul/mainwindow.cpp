@@ -3,9 +3,12 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QLibrary>
-#include "dll/rfiddll.h"
-#include "dll/pincodedll.h"
-#include "dll/dllmysql.h"
+//#include "dll/rfiddll.h"
+//#include "dll/pincodedll.h"
+//#include "dll/dllmysql.h"
+#include "rfiddll.h"
+#include "pincodedll.h"
+#include "dllmysql.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

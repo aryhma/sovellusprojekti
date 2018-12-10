@@ -14,11 +14,11 @@ SignedInDialog::SignedInDialog(QWidget *parent) :
     //nimen haku
 
     //int tili = valitaTili();
-    int idee = 1;
-    QString nimi = olio2MysqlDLL->findName(idee);
-    qDebug() << "nimi on: " << nimi ;
-    Kayttaja=nimi;
-    //Kayttaja alustettava kannasta loytyvällä nimellä
+    int idee = 1; //tama pitaisi korvata singnaalilla.. etta saadaan oikea tiliId.
+    Kayttaja = olio2MysqlDLL->findName(idee);
+    //qDebug() << "nimi on: " << Kayttaja ;
+
+    //Kayttajan tietojen lisays kannasta tulevalla datalla.
     ui->lblTervetuloa->setText(ui->lblTervetuloa->text()+Kayttaja);
 }
 

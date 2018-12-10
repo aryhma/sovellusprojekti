@@ -37,11 +37,14 @@ FORMS += \
         mainwindow.ui \
     signedindialog.ui
 
-LIBS += "$$PWD/dll/rfidDLL.dll"
-LIBS += "$$PWD/dll/pincodeDLL.dll"
-LIBS += "$$PWD/dll/DLLMySQL.dll"
+LIBS += "$$PWD/../run/rfidDLL.dll"
+LIBS += "$$PWD/../run/pincodeDLL.dll"
+LIBS += "$$PWD/../run/DLLMySQL.dll"
 
-INCLUDEPATH += "$$PWD/dll"
+# INCLUDEPATH += "$$PWD/dll"
+INCLUDEPATH += "$$PWD/../DLLMySQL"
+INCLUDEPATH += "$$PWD/../pincodeDLL"
+INCLUDEPATH += "$$PWD/../rfidDLL"
 
 DESTDIR = "$$PWD/../run/"
 

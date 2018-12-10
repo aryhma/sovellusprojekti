@@ -4,9 +4,12 @@
 #include <QMainWindow>
 
 #include "signedindialog.h"
-#include "dll/rfiddll.h"
-#include "dll/pincodedll.h"
-#include "dll/dllmysql.h"
+#include "dllmysql.h"
+#include "rfiddll.h"
+#include "pincodedll.h"
+//#include "dll/rfiddll.h"
+//#include "dll/pincodedll.h"
+//#include "dll/dllmysql.h"
 
 namespace Ui {
 class MainWindow;
