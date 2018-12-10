@@ -6,6 +6,7 @@ PincodeDialog::PincodeDialog(QWidget *parent) :
     ui(new Ui::PincodeDialog)
 {
     ui->setupUi(this);
+
 }
 
 PincodeDialog::~PincodeDialog()
@@ -15,8 +16,52 @@ PincodeDialog::~PincodeDialog()
 
 void PincodeDialog::on_pushButton_clicked()
 {
-    pin="1234";
     emit receivedPIN(pin);
 
     this->close();
+}
+
+void PincodeDialog::on_btn1_clicked()
+{
+    pin +=ui->btn1->text();
+}
+
+void PincodeDialog::on_btn2_clicked()
+{
+     pin +=ui->btn2->text();
+}
+
+void PincodeDialog::on_btn3_clicked()
+{
+    pin +=ui->btn3->text();
+}
+
+void PincodeDialog::on_btn4_clicked()
+{
+    pin +=ui->btn4->text();
+}
+
+void PincodeDialog::on_btn5_clicked()
+{
+    pin +=ui->btn5->text();
+}
+
+void PincodeDialog::on_btn6_clicked()
+{
+    pin +=ui->btn6->text();
+}
+
+void PincodeDialog::on_btn7_clicked()
+{
+    pin +=ui->btn7->text();
+}
+
+void PincodeDialog::on_btn8_clicked()
+{
+    pin +=ui->btn8->text();
+}
+
+void PincodeDialog::on_btn9_clicked()
+{
+    pin +=ui->btn9->text();
 }

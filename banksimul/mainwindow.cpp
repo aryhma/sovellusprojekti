@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->pushButton->setEnabled(false);
+   // ui->pushButton->setEnabled(false);
 
 //    QLibrary library("rfiddll.dll");
 //    library.load();
@@ -58,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // this to test the user login without actual rf reader
     connect(ui->pushButton_sim, SIGNAL (clicked()), olioRfidDLL, SLOT(simulateUserLoggedIn()));
+    connect(ui->pushButton_sim, SIGNAL (clicked()), this, SLOT(on_pushButton_clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -82,7 +83,7 @@ void MainWindow::validatePIN(QString pin)
     int hyvaksytty = olioMysqlDLL->validatePINCode(pin,idTili);
     if (hyvaksytty==1){
         qDebug() << "PIN ok, welcome" << pin;
-        ui->label_PIN->setText(pin);
+       // ui->label_PIN->setText(pin);
         QMessageBox msgBox;
         msgBox.setText("Welcome");
         msgBox.exec();
@@ -111,7 +112,7 @@ void MainWindow::login(QString id)
 {
     qDebug() << "User logged in: " << id;
     ui->label->setText(id);
-    ui->pushButton->setEnabled(true);
+   // ui->pushButton->setEnabled(true);
     userID = id;
 
     //lahetetaan kortti id kantaan ja saadaan sielta tili id takaisin.
