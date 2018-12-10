@@ -31,18 +31,19 @@ bool DLLMySQL::validateCard(QString cardId)
 {
     qDebug() << "MYSQLDLL sain kortin:" << cardId;
 
-    /*QSqlQuery haku;
-    haku.prepare("select idTili from kortti where korttiTunniste=(:tunniste)");
-    haku.bindValue(":tunniste", param1);
-    int idTili=0;
-    idTili = haku.exec();
-    qDebug() << "MYSQLDLL idTili:" << idTili << endl;*/
+    QSqlQuery haku;
+    haku.prepare("select idTili from kortti where korttiTunniste=:tunniste");
+    haku.bindValue(":tunniste", cardId);
+    haku.exec();
+    haku.next();
+    int idTili = haku.value(0).toInt();
+    qDebug() << "MYSQLDLL qsqlquery testi idTili:" << idTili << endl;
 
 
-    QSqlTableModel *kortti = new QSqlTableModel();
+    /*QSqlTableModel *kortti = new QSqlTableModel();
     kortti->setTable("kortti");
     kortti->setFilter(QString("korttiTunniste='%1'").arg(cardId));
-    kortti->select();
+    kortti->select();*/
     //qDebug() << "MYSQLDLL sain: " << tulos << "recordia" << endl;
 
     //tuloksen debuggausta varten..
@@ -51,8 +52,8 @@ bool DLLMySQL::validateCard(QString cardId)
     QString korttiN = kortti->data(kortti->index(0,2)).toString();
     qDebug() <<"idkortti: " << id <<" idTili: " << tili << " idKortti: " << korttiN;*/
 
-    int idTili = 0;
-    idTili = kortti->record(0).value("idTili").toInt();
+    /*idTili = 0;
+    idTili = kortti->record(0).value("idTili").toInt();*/
     //qDebug() << "tili id inttina: " << idTili << endl;
 
     return idTili;
@@ -81,7 +82,15 @@ QString DLLMySQL::findName(int idTili)
     //mika tili tulee ja haetaan asiakasid
     qDebug() << "MYSQLDLL sain tiliID: " << idTili;
 
-    QSqlTableModel *name = new QSqlTableModel();
+    QSqlQuery nimi;
+    nimi.prepare("select etunimi,sukunimi from asiakas where idAsiakas in (select idAsiakas from tili where idTili=:tili)");
+    nimi.bindValue(":tili", idTili);
+    nimi.exec();
+    nimi.next();
+    QString etunimi = nimi.value(0).toString();
+    QString sukunimi = nimi.value(1).toString();
+
+    /*QSqlTableModel *name = new QSqlTableModel();
     name->setTable("tili");
     name->setFilter(QString("idTili='%1'").arg(idTili));
     name->select();
@@ -97,7 +106,7 @@ QString DLLMySQL::findName(int idTili)
     //int rivit = flname->rowCount();
     //qDebug() << "rivi maara: " << rivit;
     QString etunimi = flname->data(flname->index(0,1)).toString();
-    QString sukunimi = flname->data(flname->index(0,2)).toString();
+    QString sukunimi = flname->data(flname->index(0,2)).toString();*/
     //QString etunimi = flname->record(0).value("etunimi");
     qDebug() << "DLLMySQL etunimi:" << etunimi << "sukunimi:" << sukunimi;
     QString fullname = etunimi + " " + sukunimi;
