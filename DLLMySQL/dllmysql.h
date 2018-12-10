@@ -11,6 +11,7 @@ public:
     bool DLLMYSQLSHARED_EXPORT validateCard(QString cardId);
     bool DLLMYSQLSHARED_EXPORT validatePINCode(QString , int);
     bool DLLMYSQLSHARED_EXPORT mysqlconnection();
+    QString DLLMYSQLSHARED_EXPORT findName(int);
 };
 
 #endif // DLLMYSQL_H

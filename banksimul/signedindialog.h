@@ -2,6 +2,7 @@
 #define SIGNEDINDIALOG_H
 
 #include <QDialog>
+#include <dll/dllmysql.h>
 
 namespace Ui {
 class SignedInDialog;
@@ -18,7 +19,9 @@ public:
 private:
     Ui::SignedInDialog *ui;
 
-    QString Kayttaja = "";
+    DLLMySQL *olio2MysqlDLL;
+
+    QString Kayttaja = "Default";
 };
 
 #endif // SIGNEDINDIALOG_H

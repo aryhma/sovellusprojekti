@@ -6,7 +6,7 @@
 #include "signedindialog.h"
 #include "dll/rfiddll.h"
 #include "dll/pincodedll.h"
-#include "dll/DLLMySQL.h"
+#include "dll/dllmysql.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +19,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    int valitaTili () {return idTili;}
+
 
 private slots:
     void login(QString);

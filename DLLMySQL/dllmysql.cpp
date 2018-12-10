@@ -75,3 +75,32 @@ bool DLLMySQL::validatePINCode(QString pin2, int tili)
 
     return rivit;
 }
+
+QString DLLMySQL::findName(int idTili)
+{
+    //mika tili tulee ja haetaan asiakasid
+    qDebug() << "MYSQLDLL sain tiliID: " << idTili;
+
+    QSqlTableModel *name = new QSqlTableModel();
+    name->setTable("tili");
+    name->setFilter(QString("idTili='%1'").arg(idTili));
+    name->select();
+
+    int idAsiakas = name->record(0).value("idAsiakas").toInt();
+    qDebug() << "DLLMySQL kannasta haettu asiakasid: " << idAsiakas;
+
+    QSqlTableModel *flname = new QSqlTableModel();
+    flname->setTable("asiakas");
+    flname->setFilter(QString("idAsiakas='%1'").arg(idAsiakas));
+    flname->select();
+
+    //int rivit = flname->rowCount();
+    //qDebug() << "rivi maara: " << rivit;
+    QString etunimi = flname->data(flname->index(0,1)).toString();
+    QString sukunimi = flname->data(flname->index(0,2)).toString();
+    //QString etunimi = flname->record(0).value("etunimi");
+    qDebug() << "DLLMySQL etunimi:" << etunimi << "sukunimi:" << sukunimi;
+    QString fullname = etunimi + " " + sukunimi;
+    qDebug() << "DLLMySQL nimi:" << fullname;
+    return fullname;
+}
