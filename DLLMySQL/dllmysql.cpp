@@ -3,6 +3,7 @@
 #include <QtSql>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QSqlTableModel>
 
 #include "connection.h"
 
@@ -112,4 +113,30 @@ QString DLLMySQL::findName(int idTili)
     QString fullname = etunimi + " " + sukunimi;
     qDebug() << "DLLMySQL nimi:" << fullname;
     return fullname;
+}
+
+float DLLMySQL::showBalance(int idTili)
+{
+    //mika tili tulee ja haetaan asiakasid
+    qDebug() << "MYSQLDLL showBalance sain tiliID: " << idTili;
+
+    QSqlQuery saldo;
+    saldo.prepare("select tiliSaldo from tili where idTili=:tili");
+    saldo.bindValue(":tili", idTili);
+    saldo.exec();
+    saldo.first();
+    float saldosi = saldo.value(0).toFloat();
+
+    qDebug() << "DLLMySQL showBalance saldo on: " << saldosi;
+    return saldosi;
+}
+
+QSqlTableModel* DLLMySQL::showTransactions(int idTili)
+{
+    qDebug() << "MYSQLDLL showTransactions sain tiliID: " << idTili;
+    QSqlTableModel *tilitapahtumat = new QSqlTableModel;
+    tilitapahtumat->setTable("tilitapahtumat");
+    tilitapahtumat->setFilter(QString("idTili='%1'").arg(idTili));
+    tilitapahtumat->select();
+    return tilitapahtumat;
 }

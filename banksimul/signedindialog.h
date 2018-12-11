@@ -22,6 +22,10 @@ public:
 private slots:
     void on_btnUlos_clicked();
 
+    void on_btnSaldo_clicked();
+
+    void on_btnTapahtumat_clicked();
+
 private:
     Ui::SignedInDialog *ui;
 
