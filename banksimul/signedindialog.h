@@ -16,11 +16,14 @@ class SignedInDialog : public QDialog
 public:
     explicit SignedInDialog(QWidget *parent = nullptr);
     ~SignedInDialog();
+    void alustaTiedot(QString kayt, int id) {Kayttaja = kayt; idTili=id; asetaOtsikko();}
+    void asetaOtsikko();
 
 private:
     Ui::SignedInDialog *ui;
 
     DLLMySQL *olio2MysqlDLL;
+    int idTili;
 
     QString Kayttaja = "Default";
 };

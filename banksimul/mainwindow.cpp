@@ -62,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // this to test the user login without actual rf reader
     connect(ui->pushButton_sim, SIGNAL (clicked()), olioRfidDLL, SLOT(simulateUserLoggedIn()));
     connect(ui->pushButton_sim, SIGNAL (clicked()), this, SLOT(on_pushButton_clicked()));
+
 }
 
 MainWindow::~MainWindow()
@@ -85,10 +86,12 @@ void MainWindow::validatePIN(QString pin)
     qDebug() << "validating PIN" << pin;
 
     int hyvaksytty = olioMysqlDLL->validatePINCode(pin,idTili);
+
     if (hyvaksytty==1){
-        qDebug() << "PIN ok, welcome" << pin;
-        olioSignedIn = new SignedInDialog(this);
-        olioSignedIn->show();
+       qDebug() << "PIN ok, welcome" << pin;
+       olioSignedIn = new SignedInDialog;
+       olioSignedIn->alustaTiedot(olioMysqlDLL->findName(idTili), idTili);
+       olioSignedIn->show();
 
     }else
     {
