@@ -34,18 +34,21 @@ void SignedInDialog::on_btnSaldo_clicked()
 {
     float saldo = olio2MysqlDLL->showBalance(idTili);
     QMessageBox saldoo;
-    QString teksti = QString("Pankkitilin saldo on:%1").arg(saldo);
+    QString teksti = QString("Pankkitilin saldo on: %1").arg(saldo);
     saldoo.setText(teksti);
     saldoo.exec();
-
-    //QString status = QString("Found %1 device(s):").arg(device_count);
-    //QMessageBox::information(this, tr("Info"), status);
 }
 
 void SignedInDialog::on_btnTapahtumat_clicked()
 {
     //QSqlTableModel testi =  olio2MysqlDLL->showTransactions();
-    //QTableView *view1 = createView(olio2MysqlDLL->showTransactions(idTili)  , QObject::tr("Table Model (View 1)"));
+    QTableView *tapahtumat = new QTableView;
+    tapahtumat->setModel(olio2MysqlDLL->showTransactions(idTili));
+    tapahtumat->setWindowTitle("Tilitapahtumat");
+    tapahtumat->resizeColumnToContents(0);
+    tapahtumat->resize(400,307);
+    tapahtumat->show();
+    //QTableView *view1 = new createView(olio2MysqlDLL->showTransactions(idTili)  , QObject::tr("Table Model (View 1)"));
 
     //view1->show();
 }
