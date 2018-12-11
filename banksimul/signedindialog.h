@@ -19,6 +19,9 @@ public:
     void alustaTiedot(QString kayt, int id) {Kayttaja = kayt; idTili=id; asetaOtsikko();}
     void asetaOtsikko();
 
+private slots:
+    void on_btnUlos_clicked();
+
 private:
     Ui::SignedInDialog *ui;
 

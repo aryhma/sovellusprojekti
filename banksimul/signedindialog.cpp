@@ -21,3 +21,8 @@ void SignedInDialog::asetaOtsikko()
 {
     ui->lblTervetuloa->setText(ui->lblTervetuloa->text()+Kayttaja);
 }
+
+void SignedInDialog::on_btnUlos_clicked()
+{
+    this->close();
+}
