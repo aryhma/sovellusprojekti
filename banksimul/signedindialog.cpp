@@ -42,7 +42,7 @@ void SignedInDialog::on_btnSaldo_clicked()
     olioSaldo->show();
     /*
     QMessageBox saldoo;
-    QString teksti = QString("Pankkitilin saldo on:%1").arg(saldo);
+    QString teksti = QString("Pankkitilin saldo on: %1").arg(saldo);
     saldoo.setText(teksti);
     saldoo.exec();*/
 
@@ -53,7 +53,13 @@ void SignedInDialog::on_btnSaldo_clicked()
 void SignedInDialog::on_btnTapahtumat_clicked()
 {
     //QSqlTableModel testi =  olio2MysqlDLL->showTransactions();
-    //QTableView *view1 = createView(olio2MysqlDLL->showTransactions(idTili)  , QObject::tr("Table Model (View 1)"));
+    QTableView *tapahtumat = new QTableView;
+    tapahtumat->setModel(olio2MysqlDLL->showTransactions(idTili));
+    tapahtumat->setWindowTitle("Tilitapahtumat");
+    tapahtumat->resizeColumnToContents(0);
+    tapahtumat->resize(400,307);
+    tapahtumat->show();
+    //QTableView *view1 = new createView(olio2MysqlDLL->showTransactions(idTili)  , QObject::tr("Table Model (View 1)"));
 
     //view1->show();
 }

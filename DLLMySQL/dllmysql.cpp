@@ -136,7 +136,11 @@ QSqlTableModel* DLLMySQL::showTransactions(int idTili)
     qDebug() << "MYSQLDLL showTransactions sain tiliID: " << idTili;
     QSqlTableModel *tilitapahtumat = new QSqlTableModel;
     tilitapahtumat->setTable("tilitapahtumat");
-    tilitapahtumat->setFilter(QString("idTili='%1'").arg(idTili));
+    tilitapahtumat->setFilter(QString("idTili='%1' ORDER BY tilitapahtumatAika").arg(idTili));
     tilitapahtumat->select();
+    tilitapahtumat->removeColumns(0,2); //poistetaan ekat 2 saraketta..
+    tilitapahtumat->setHeaderData(0, Qt::Horizontal, QObject::tr("Tapahtuma")); //nimetaan sarakkeet nayttoa varten.
+    tilitapahtumat->setHeaderData(1, Qt::Horizontal, QObject::tr("Summa"));
+    tilitapahtumat->setHeaderData(2, Qt::Horizontal, QObject::tr("Paivamaara"));
     return tilitapahtumat;
 }
