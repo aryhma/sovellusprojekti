@@ -115,7 +115,7 @@ QString DLLMySQL::findName(int idTili)
     return fullname;
 }
 
-float DLLMySQL::showBalance(int idTili)
+double DLLMySQL::showBalance(int idTili)
 {
     //mika tili tulee ja haetaan asiakasid
     qDebug() << "MYSQLDLL showBalance sain tiliID: " << idTili;
@@ -125,7 +125,7 @@ float DLLMySQL::showBalance(int idTili)
     saldo.bindValue(":tili", idTili);
     saldo.exec();
     saldo.first();
-    float saldosi = saldo.value(0).toFloat();
+    double saldosi = saldo.value(0).toDouble();
 
     qDebug() << "DLLMySQL showBalance saldo on: " << saldosi;
     return saldosi;

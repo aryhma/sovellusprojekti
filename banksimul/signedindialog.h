@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <dllmysql.h>
+#include "saldo.h"
 //#include <dll/dllmysql.h>
 
 namespace Ui {
@@ -19,6 +20,10 @@ public:
     void alustaTiedot(QString kayt, int id) {Kayttaja = kayt; idTili=id; asetaOtsikko();}
     void asetaOtsikko();
 
+signals:
+    void sendBalance(double);
+    void lahetaKayttaja(QString);
+
 private slots:
     void on_btnUlos_clicked();
 
@@ -28,7 +33,7 @@ private slots:
 
 private:
     Ui::SignedInDialog *ui;
-
+    Saldo *olioSaldo;
     DLLMySQL *olio2MysqlDLL;
     int idTili;
 

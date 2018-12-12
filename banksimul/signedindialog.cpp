@@ -12,11 +12,15 @@ SignedInDialog::SignedInDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    olioSaldo = new Saldo;
+    connect(this, SIGNAL(sendBalance(double)), olioSaldo, SLOT(naytaSaldo(double)));
+    connect(this, SIGNAL(lahetaKayttaja(QString)), olioSaldo, SLOT(asetaKayttaja(QString)));
 }
 
 SignedInDialog::~SignedInDialog()
 {
     delete ui;
+    delete olioSaldo;
     //delete olio2MysqlDLL;
 }
 
@@ -32,11 +36,15 @@ void SignedInDialog::on_btnUlos_clicked()
 
 void SignedInDialog::on_btnSaldo_clicked()
 {
-    float saldo = olio2MysqlDLL->showBalance(idTili);
+    double saldo = olio2MysqlDLL->showBalance(idTili);
+    emit sendBalance(saldo);
+    emit lahetaKayttaja(Kayttaja);
+    olioSaldo->show();
+    /*
     QMessageBox saldoo;
     QString teksti = QString("Pankkitilin saldo on:%1").arg(saldo);
     saldoo.setText(teksti);
-    saldoo.exec();
+    saldoo.exec();*/
 
     //QString status = QString("Found %1 device(s):").arg(device_count);
     //QMessageBox::information(this, tr("Info"), status);

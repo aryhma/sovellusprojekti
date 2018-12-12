@@ -15,7 +15,7 @@ public:
     bool DLLMYSQLSHARED_EXPORT mysqlconnection();
     QString DLLMYSQLSHARED_EXPORT findName(int);
     float DLLMYSQLSHARED_EXPORT raiseMoney(int, int);
-    float DLLMYSQLSHARED_EXPORT showBalance(int);
+    double DLLMYSQLSHARED_EXPORT showBalance(int);
     QSqlTableModel *showTransactions(int);
 
 };
