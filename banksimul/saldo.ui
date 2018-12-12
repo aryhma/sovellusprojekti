@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Saldoikkuna</string>
   </property>
   <widget class="QLabel" name="lblOmistaja">
    <property name="geometry">

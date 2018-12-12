@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include "nosta.h"
 #include "ui_nosta.h"
 
@@ -50,7 +51,20 @@ void Nosta::on_btnPeruuta_clicked()
 
 void Nosta::on_btnnosta_clicked()
 {
+    if (nostoSumma > saldo)
+    {
+        QMessageBox noMoney;
+        QString teksti = QString("Sinulla ei ole varaa. Saldosi on %1 euroa.").arg(saldo);
+        noMoney.setWindowTitle("No money window");
+        noMoney.setText(teksti);
+        noMoney.exec();
+    }
 
+    else
+    {
+        //Tänne Mysql päivitykset ja kyselyt
+        olioDll=new DLLMySQL;
+    }
 }
 
 void Nosta::vaihdaTeksti(int i)

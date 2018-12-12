@@ -22,6 +22,7 @@ SignedInDialog::~SignedInDialog()
     delete ui;
     delete olioSaldo;
     delete olioNosta;
+    delete olioLahjoita;
     //delete olio2MysqlDLL;
 }
 
@@ -68,6 +69,14 @@ void SignedInDialog::on_btnTapahtumat_clicked()
 void SignedInDialog::on_btnNosta_clicked()
 {
     olioNosta = new Nosta(this);
+    olioNosta->asetaId(idTili);
     olioNosta->asetaSaldo(olio2MysqlDLL->showBalance(idTili));
     olioNosta->show();
+}
+
+void SignedInDialog::on_btnLahjoita_clicked()
+{
+    olioLahjoita = new Lahjoita(this);
+    olioLahjoita->asetaSaldo(olio2MysqlDLL->showBalance(idTili));
+    olioLahjoita->show();
 }

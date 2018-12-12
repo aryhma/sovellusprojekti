@@ -5,6 +5,7 @@
 #include <dllmysql.h>
 #include "saldo.h"
 #include "nosta.h"
+#include "lahjoita.h"
 //#include <dll/dllmysql.h>
 
 namespace Ui {
@@ -36,11 +37,14 @@ private slots:
 
     void on_btnNosta_clicked();
 
+    void on_btnLahjoita_clicked();
+
 private:
     Ui::SignedInDialog *ui;
     Saldo *olioSaldo;
     DLLMySQL *olio2MysqlDLL;
     Nosta *olioNosta;
+    Lahjoita *olioLahjoita;
     int idTili;
 
     QString Kayttaja = "Default";

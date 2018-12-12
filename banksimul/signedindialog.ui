@@ -11,14 +11,14 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Pankkiautomaatti</string>
   </property>
   <widget class="QPushButton" name="btnSaldo">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>160</y>
-     <width>111</width>
+     <width>131</width>
      <height>51</height>
     </rect>
    </property>
@@ -56,9 +56,9 @@
   <widget class="QPushButton" name="btnNosta">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>80</y>
-     <width>111</width>
+     <width>131</width>
      <height>51</height>
     </rect>
    </property>
@@ -76,8 +76,8 @@
   <widget class="QPushButton" name="btnLahjoita">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>230</y>
+     <x>210</x>
+     <y>240</y>
      <width>131</width>
      <height>51</height>
     </rect>
@@ -133,9 +133,9 @@
   <widget class="QPushButton" name="btnMaksa">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>210</x>
      <y>80</y>
-     <width>111</width>
+     <width>131</width>
      <height>51</height>
     </rect>
    </property>
@@ -153,9 +153,9 @@
   <widget class="QLabel" name="lblTervetuloa">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>60</x>
      <y>10</y>
-     <width>301</width>
+     <width>271</width>
      <height>51</height>
     </rect>
    </property>
@@ -171,8 +171,8 @@
   <widget class="QPushButton" name="btnUlos">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>230</y>
+     <x>10</x>
+     <y>240</y>
      <width>131</width>
      <height>51</height>
     </rect>
