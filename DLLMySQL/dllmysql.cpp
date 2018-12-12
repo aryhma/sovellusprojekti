@@ -129,7 +129,7 @@ double DLLMySQL::raiseMoney(int idTili, int nosto)
     double saldosi = saldo.value(0).toDouble();
     qDebug() << "DLLMySQL raiseMoney saldo kannasta ennen paivitysta on: " << saldosi;
 
-    if (saldosi > nosto)
+    if (saldosi >= nosto)
     {
         qDebug() << "DLLMySQL raiseMoney, tehdaan kanta insert ja update";
         QSqlQuery insert1;

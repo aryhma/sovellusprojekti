@@ -47,7 +47,7 @@ private:
     int nostoSumma = 0;
     double saldo = 0.0;
     int idTili;
-    double saldoP = 0.0; //palautuva saldo
+    double saldoP = 0.0; //palautuva saldo kannasta.
 };
 
 #endif // NOSTA_H
