@@ -12,7 +12,7 @@ SignedInDialog::SignedInDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    olioSaldo = new Saldo;
+    olioSaldo = new Saldo(this);
     connect(this, SIGNAL(sendBalance(double)), olioSaldo, SLOT(naytaSaldo(double)));
     connect(this, SIGNAL(lahetaKayttaja(QString)), olioSaldo, SLOT(asetaKayttaja(QString)));
 }
@@ -21,6 +21,7 @@ SignedInDialog::~SignedInDialog()
 {
     delete ui;
     delete olioSaldo;
+    delete olioNosta;
     //delete olio2MysqlDLL;
 }
 
@@ -62,4 +63,11 @@ void SignedInDialog::on_btnTapahtumat_clicked()
     //QTableView *view1 = new createView(olio2MysqlDLL->showTransactions(idTili)  , QObject::tr("Table Model (View 1)"));
 
     //view1->show();
+}
+
+void SignedInDialog::on_btnNosta_clicked()
+{
+    olioNosta = new Nosta(this);
+    olioNosta->asetaSaldo(olio2MysqlDLL->showBalance(idTili));
+    olioNosta->show();
 }

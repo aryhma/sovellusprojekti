@@ -28,17 +28,20 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     signedindialog.cpp \
-    saldo.cpp
+    saldo.cpp \
+    nosta.cpp
 
 HEADERS += \
         mainwindow.h \
     signedindialog.h \
-    saldo.h
+    saldo.h \
+    nosta.h
 
 FORMS += \
         mainwindow.ui \
     signedindialog.ui \
-    saldo.ui
+    saldo.ui \
+    nosta.ui
 
 LIBS += "$$PWD/../run/rfidDLL.dll"
 LIBS += "$$PWD/../run/pincodeDLL.dll"
