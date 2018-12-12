@@ -17,6 +17,7 @@ public:
     ~Nosta();
 
     void asetaSaldo(double s){saldo=s;}
+    void asetaTili(int t){idTili=t;}
 
 private slots:
 
@@ -41,8 +42,12 @@ private slots:
 private:
     Ui::Nosta *ui;
 
-    int nostoSumma;
+    DLLMySQL *olio3MysqlDLL;
+
+    int nostoSumma = 0;
     double saldo = 0.0;
+    int idTili;
+    double saldoP = 0.0; //palautuva saldo
 };
 
 #endif // NOSTA_H

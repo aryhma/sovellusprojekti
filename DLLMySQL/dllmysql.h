@@ -14,7 +14,7 @@ public:
     bool DLLMYSQLSHARED_EXPORT validatePINCode(QString , int);
     bool DLLMYSQLSHARED_EXPORT mysqlconnection();
     QString DLLMYSQLSHARED_EXPORT findName(int);
-    float DLLMYSQLSHARED_EXPORT raiseMoney(int, int);
+    double DLLMYSQLSHARED_EXPORT raiseMoney(int, int);
     double DLLMYSQLSHARED_EXPORT showBalance(int);
     QSqlTableModel *showTransactions(int);
 
