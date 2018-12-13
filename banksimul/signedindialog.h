@@ -23,6 +23,7 @@ public:
 
     void alustaTiedot(QString kayt, int id) {Kayttaja = kayt; idTili=id; asetaOtsikko();}
     void asetaOtsikko();
+    void showTable();
 
 signals:
     void sendBalance(double);
@@ -42,6 +43,8 @@ private slots:
 
     void on_btnMaksa_clicked();
 
+    void tableClose();
+
 private:
     Ui::SignedInDialog *ui;
     Saldo *olioSaldo;
@@ -49,6 +52,8 @@ private:
     Nosta *olioNosta;
     Lahjoita *olioLahjoita;
     Maksa *olioMaksa;
+    QPushButton *btnPoistu;
+    QWidget *tableWindow;
     int idTili;
 
     QString Kayttaja = "Default";

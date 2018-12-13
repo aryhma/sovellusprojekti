@@ -6,6 +6,9 @@
 #include <QTableView>
 #include <QSqlTableModel>
 
+#include <QtGui>
+#include <QGridLayout>
+
 SignedInDialog::SignedInDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SignedInDialog)
@@ -15,6 +18,7 @@ SignedInDialog::SignedInDialog(QWidget *parent) :
     olioSaldo = new Saldo(this);
     connect(this, SIGNAL(sendBalance(double)), olioSaldo, SLOT(naytaSaldo(double)));
     connect(this, SIGNAL(lahetaKayttaja(QString)), olioSaldo, SLOT(asetaKayttaja(QString)));
+
 }
 
 SignedInDialog::~SignedInDialog()
@@ -55,7 +59,7 @@ void SignedInDialog::on_btnSaldo_clicked()
 
 void SignedInDialog::on_btnTapahtumat_clicked()
 {
-    //QSqlTableModel testi =  olio2MysqlDLL->showTransactions();
+   /* //QSqlTableModel testi =  olio2MysqlDLL->showTransactions();
     QTableView *tapahtumat = new QTableView;
     tapahtumat->setModel(olio2MysqlDLL->showTransactions(idTili));
     tapahtumat->setWindowTitle("Tilitapahtumat");
@@ -63,8 +67,9 @@ void SignedInDialog::on_btnTapahtumat_clicked()
     tapahtumat->resize(400,307);
     tapahtumat->show();
     //QTableView *view1 = new createView(olio2MysqlDLL->showTransactions(idTili)  , QObject::tr("Table Model (View 1)"));
+    //view1->show();*/
 
-    //view1->show();
+    showTable();
 }
 
 void SignedInDialog::on_btnNosta_clicked()
@@ -90,4 +95,29 @@ void SignedInDialog::on_btnMaksa_clicked()
     olioMaksa->asetaTili(idTili);
     //olioMaksa->asetaLaskujenMaara()// Tähän voisi tehdä laskutauluun kyselyn montako kpl laskuja on.
     olioMaksa->show();
+}
+
+void SignedInDialog::showTable()
+{
+    tableWindow = new QWidget();
+    btnPoistu = new QPushButton("Takaisin");
+    QGridLayout *tableLay = new QGridLayout(tableWindow);
+    QTableView *tapahtumat = new QTableView;
+
+    tableWindow->setWindowTitle("Tilitapahtumat");
+    tapahtumat->setModel(olio2MysqlDLL->showTransactions(idTili));
+    tapahtumat->resizeColumnToContents(0);
+    tableWindow->resize(315,400);
+    tableLay->addWidget(tapahtumat);
+    tableLay->addWidget(btnPoistu);
+    tableWindow->setLayout(tableLay);
+    tableWindow->show();
+
+    connect(btnPoistu, SIGNAL(clicked()), this, SLOT(tableClose()));
+
+}
+
+void SignedInDialog::tableClose()
+{
+    tableWindow->close();
 }
