@@ -182,11 +182,119 @@ QSqlTableModel* DLLMySQL::showTransactions(int idTili)
     qDebug() << "MYSQLDLL showTransactions sain tiliID: " << idTili;
     QSqlTableModel *tilitapahtumat = new QSqlTableModel;
     tilitapahtumat->setTable("tilitapahtumat");
-    tilitapahtumat->setFilter(QString("idTili='%1' ORDER BY tilitapahtumatAika DESC limit 9").arg(idTili));
+    tilitapahtumat->setFilter(QString("idTili='%1' ORDER BY tilitapahtumatAika DESC").arg(idTili));
     tilitapahtumat->select();
     tilitapahtumat->removeColumns(0,2); //poistetaan ekat 2 saraketta..
     tilitapahtumat->setHeaderData(0, Qt::Horizontal, QObject::tr("Tapahtuma")); //nimetaan sarakkeet nayttoa varten.
     tilitapahtumat->setHeaderData(1, Qt::Horizontal, QObject::tr("Summa"));
     tilitapahtumat->setHeaderData(2, Qt::Horizontal, QObject::tr("Paivamaara"));
     return tilitapahtumat;
+}
+
+int DLLMySQL::invoiceCount(int idTili)
+{
+    //mika tili tulee ja haetaan asiakasid
+    qDebug() << "MYSQLDLL nextInvoice sain tiliID: " << idTili;
+
+    QSqlQuery invoice;
+    invoice.prepare("select idLasku from laskut where maksettu=0 and idTili=:tili");
+    invoice.bindValue(":tili", idTili);
+    invoice.exec();
+    int montako = invoice.size();
+
+    qDebug() << "DLLMySQL nextInvoice laskuja oli: " << montako;
+    return montako;
+}
+
+int DLLMySQL::getInvoiceId(int idTili)
+{
+    //mika tili tulee ja haetaan asiakasid
+    qDebug() << "MYSQLDLL getInvoiceId sain tiliID: " << idTili;
+
+    QSqlQuery invoiceID;
+    invoiceID.prepare("select idLasku from laskut where maksettu=0 and idTili=:tili");
+    invoiceID.bindValue(":tili", idTili);
+    invoiceID.exec();
+    invoiceID.next();
+    int idee = invoiceID.value(0).toInt();
+
+    qDebug() << "DLLMySQL getInvoiceId idee oli: " << idee;
+    return idee;
+}
+
+QString DLLMySQL::getInvoiceDetails(int lasku, int a)
+{
+    //mika tili tulee ja haetaan asiakasid
+    qDebug() << "MYSQLDLL getInvoiceDetails sain laskun ideen: " << lasku;
+
+    QSqlQuery invoice;
+    invoice.prepare("select tiliNumero,saaja,viite,summa from laskut where idLasku=:id order by idLasku");
+    invoice.bindValue(":id", lasku);
+    invoice.exec();
+    invoice.first();
+    QString arvo = invoice.value(a).toString();
+
+    qDebug() << "DLLMySQL getInvoiceDetails arvo oli: " << arvo;
+    return arvo;
+}
+
+double DLLMySQL::getInvoiceDetailsD(int lasku)
+{
+    //mika lasku numero tulee
+    qDebug() << "MYSQLDLL getInvoiceDetailsD sain laskun ideen: " << lasku;
+
+    QSqlQuery invoice;
+    invoice.prepare("select summa from laskut where idLasku=:id order by idLasku");
+    invoice.bindValue(":id", lasku);
+    invoice.exec();
+    invoice.first();
+    double arvo = invoice.value(0).toDouble();
+
+    qDebug() << "DLLMySQL getInvoiceDetailsD arvo oli: " << arvo;
+    return arvo;
+}
+
+bool DLLMySQL::payInvoice(int lasku,int idTili, double summa)
+{
+    //mika lasku numero tulee
+    qDebug() << "MYSQLDLL payInvoice laskuid:" << lasku << "idTili:" << idTili << "ja summan : " << summa;
+
+    //ensin pitaa tarkistaa onko tililla katetta..
+    QSqlQuery saldo;
+    saldo.prepare("select tiliSaldo from tili where idTili=:tili");
+    saldo.bindValue(":tili", idTili);
+    saldo.exec();
+    saldo.first();
+    double saldosi = saldo.value(0).toDouble();
+    qDebug() << "DLLMySQL raiseMoney saldo kannasta ennen paivitysta on: " << saldosi;
+
+    if (saldosi >= summa)
+    {
+        qDebug() << "DLLMySQL payInvoice, tehdaan kanta updatet";
+        QSqlQuery insert1;
+        insert1.prepare("INSERT INTO tilitapahtumat (idTili,tilitapahtumatLaji,tilitapahtumatSumma,tilitapahtumatAika) "
+                        "VALUES (:tili, 'lasku',:sum,now())");
+        insert1.bindValue(":tili", idTili);
+        insert1.bindValue(":sum", summa);
+        insert1.exec();
+
+        QSqlQuery update;
+        update.prepare("update tili set tiliSaldo=tiliSaldo-:sum where idTili=:tili");
+        update.bindValue(":tili", idTili);
+        update.bindValue(":sum", summa);
+        update.exec();
+
+        QSqlQuery update2;
+        update2.prepare("update laskut set maksettu=1 where idLasku=:id");
+        update2.bindValue(":id", lasku);
+        update2.exec();
+        return true;
+
+    }else
+    {
+       return false;
+    }
+
+    //qDebug() << "MYSQLDLL raiseMoney palautus  saldo: " << saldosi;
+    //return saldosi;
 }

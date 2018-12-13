@@ -1,5 +1,6 @@
 #include "maksa.h"
 #include "ui_maksa.h"
+#include <QMessageBox>
 
 Maksa::Maksa(QWidget *parent) :
     QDialog(parent),
@@ -27,12 +28,17 @@ void Maksa::on_btnHaeTiedot_clicked()
 
     else
     {
-       static QString testitili = "fi23334323";
-       static QString testisaaja = "Matti Meikalainen";
-       static QString testiviite = "3332 2222 33333";
-       static double testisumma = 324.55;
+        laskuID = olio4mysql->getInvoiceId(idTili);
+        QString tili = olio4mysql->getInvoiceDetails(laskuID,0);
+        QString saaja = olio4mysql->getInvoiceDetails(laskuID,1);
+        QString viite = olio4mysql->getInvoiceDetails(laskuID,2);
+        summa = olio4mysql->getInvoiceDetailsD(laskuID);
+       //static QString testitili = "fi23334323";
+       //static QString testisaaja = "Matti Meikalainen";
+       //static QString testiviite = "3332 2222 33333";
+       //static double testisumma = 324.55;
 
-        asetaTiedot(testitili,testisaaja,testiviite,testisumma);
+        asetaTiedot(tili,saaja,viite,summa);
         ui->lblMaksamatta->setText("Laskuja maksamatta "+ QString::number(laskujenMaara)+ " kpl");
     }
 }
@@ -40,8 +46,22 @@ void Maksa::on_btnHaeTiedot_clicked()
 
 void Maksa::on_btnMaksa_clicked()
 {
+    bool testi = olio4mysql->payInvoice(laskuID,idTili,summa);
+    if (testi==true)
+    {
+        QMessageBox onnistui;
+        QString teksti = QString("Laskun maksu onnistui");
+        onnistui.setText(teksti);
+        onnistui.exec();
+    }else
+    {
+        QMessageBox eionnistu;
+        QString teksti = QString("Laskun maksu ei onnistu, tililla ei ole katetta.");
+        eionnistu.setText(teksti);
+        eionnistu.exec();
+    }
     tyhjenna();
-    laskujenMaara--;
+    laskujenMaara = olio4mysql->invoiceCount(idTili);
     ui->lblMaksamatta->setText("Laskuja maksamatta "+ QString::number(laskujenMaara)+ " kpl");
 }
 

@@ -93,7 +93,7 @@ void SignedInDialog::on_btnMaksa_clicked()
     olioMaksa = new Maksa(this);
     olioMaksa->asetaSaldo(olio2MysqlDLL->showBalance(idTili));
     olioMaksa->asetaTili(idTili);
-    //olioMaksa->asetaLaskujenMaara()// Tähän voisi tehdä laskutauluun kyselyn montako kpl laskuja on.
+    olioMaksa->asetaLaskujenMaara(olio2MysqlDLL->invoiceCount(idTili));
     olioMaksa->show();
 }
 
@@ -107,7 +107,7 @@ void SignedInDialog::showTable()
     tableWindow->setWindowTitle("Tilitapahtumat");
     tapahtumat->setModel(olio2MysqlDLL->showTransactions(idTili));
     tapahtumat->resizeColumnToContents(0);
-    tableWindow->resize(315,400);
+    tableWindow->resize(350,400);
     tableLay->addWidget(tapahtumat);
     tableLay->addWidget(btnPoistu);
     tableWindow->setLayout(tableLay);

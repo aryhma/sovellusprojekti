@@ -2,6 +2,7 @@
 #define MAKSA_H
 
 #include <QDialog>
+#include "dllmysql.h"
 
 namespace Ui {
 class Maksa;
@@ -33,11 +34,14 @@ private slots:
 private:
     Ui::Maksa *ui;
 
+    DLLMySQL *olio4mysql;
+
     double saldo=0.0;
-    int laskujenMaara= 5;
+    int laskujenMaara=0;
     double laskunSumma=0;
     int idTili;
     int laskuID=0;
+    double summa;
 };
 
 #endif // MAKSA_H

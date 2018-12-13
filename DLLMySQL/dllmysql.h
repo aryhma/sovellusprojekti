@@ -17,7 +17,11 @@ public:
     double DLLMYSQLSHARED_EXPORT raiseMoney(int, int);
     double DLLMYSQLSHARED_EXPORT showBalance(int);
     QSqlTableModel *showTransactions(int);
-
+    int DLLMYSQLSHARED_EXPORT invoiceCount(int);
+    int DLLMYSQLSHARED_EXPORT getInvoiceId(int);
+    QString DLLMYSQLSHARED_EXPORT getInvoiceDetails(int,int);
+    double DLLMYSQLSHARED_EXPORT getInvoiceDetailsD(int);
+    bool DLLMYSQLSHARED_EXPORT payInvoice(int,int,double);
 };
 
 #endif // DLLMYSQL_H
