@@ -64,6 +64,7 @@ void Nosta::on_btnnosta_clicked()
         QString teksti = QString("Rahan nostaminen epäonnistui\n"
                                  "Sinulla ei ole tilillä katetta\n\n"
                                  "Tilin saldo on: %1 €").arg(saldoP);
+        eionnistu.setWindowTitle("Kuitti");
         eionnistu.setText(teksti);
         eionnistu.exec();
     }else
@@ -72,6 +73,7 @@ void Nosta::on_btnnosta_clicked()
         QString teksti = QString("Nosto suoritettu\n"
                                  "Muistaa ottaa rahat\n\n"
                                  "Tilille jäi rahaa : %1 €").arg(saldoP);
+        onnistui.setWindowTitle("Kuitti");
         onnistui.setText(teksti);
         onnistui.exec();
 

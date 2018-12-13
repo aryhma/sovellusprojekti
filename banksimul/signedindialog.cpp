@@ -23,6 +23,7 @@ SignedInDialog::~SignedInDialog()
     delete olioSaldo;
     delete olioNosta;
     delete olioLahjoita;
+    delete olioMaksa;
     //delete olio2MysqlDLL;
 }
 
@@ -69,7 +70,6 @@ void SignedInDialog::on_btnTapahtumat_clicked()
 void SignedInDialog::on_btnNosta_clicked()
 {
     olioNosta = new Nosta(this);
-    olioNosta->asetaId(idTili);
     olioNosta->asetaSaldo(olio2MysqlDLL->showBalance(idTili));
     olioNosta->asetaTili(idTili);
     olioNosta->show();
@@ -79,5 +79,15 @@ void SignedInDialog::on_btnLahjoita_clicked()
 {
     olioLahjoita = new Lahjoita(this);
     olioLahjoita->asetaSaldo(olio2MysqlDLL->showBalance(idTili));
+    olioLahjoita->asetaTili(idTili);
     olioLahjoita->show();
+}
+
+void SignedInDialog::on_btnMaksa_clicked()
+{
+    olioMaksa = new Maksa(this);
+    olioMaksa->asetaSaldo(olio2MysqlDLL->showBalance(idTili));
+    olioMaksa->asetaTili(idTili);
+    //olioMaksa->asetaLaskujenMaara()// Tähän voisi tehdä laskutauluun kyselyn montako kpl laskuja on.
+    olioMaksa->show();
 }
