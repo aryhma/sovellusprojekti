@@ -115,6 +115,52 @@ QString DLLMySQL::findName(int idTili)
     return fullname;
 }
 
+double DLLMySQL::raiseMoney(int idTili, int nosto)
+{
+    //mika tili tulee ja nosto summa
+    qDebug() << "MYSQLDLL raiseMoney tiliID: " << idTili << " nostosumma: " << nosto;
+
+    //ensin pitaa tarkistaa onko tililla katetta..
+    QSqlQuery saldo;
+    saldo.prepare("select tiliSaldo from tili where idTili=:tili");
+    saldo.bindValue(":tili", idTili);
+    saldo.exec();
+    saldo.first();
+    double saldosi = saldo.value(0).toDouble();
+    qDebug() << "DLLMySQL raiseMoney saldo kannasta ennen paivitysta on: " << saldosi;
+
+    if (saldosi >= nosto)
+    {
+        qDebug() << "DLLMySQL raiseMoney, tehdaan kanta insert ja update";
+        QSqlQuery insert1;
+        insert1.prepare("INSERT INTO tilitapahtumat (idTili,tilitapahtumatLaji,tilitapahtumatSumma,tilitapahtumatAika) "
+                        "VALUES (:tili, 'otto',:sum,now())");
+        insert1.bindValue(":tili", idTili);
+        insert1.bindValue(":sum", nosto);
+        insert1.exec();
+
+        QSqlQuery update;
+        update.prepare("update tili set tiliSaldo=tiliSaldo-:sum where idTili=:tili");
+        update.bindValue(":tili", idTili);
+        update.bindValue(":sum", nosto);
+        update.exec();
+
+        QSqlQuery saldo2;
+        saldo2.prepare("select tiliSaldo from tili where idTili=:tili");
+        saldo2.bindValue(":tili", idTili);
+        saldo2.exec();
+        saldo2.first();
+        saldosi = saldo2.value(0).toDouble();
+
+    }else
+    {
+       saldosi=-1;
+    }
+
+    qDebug() << "MYSQLDLL raiseMoney palautus  saldo: " << saldosi;
+    return saldosi;
+}
+
 double DLLMySQL::showBalance(int idTili)
 {
     //mika tili tulee ja haetaan asiakasid
@@ -136,7 +182,7 @@ QSqlTableModel* DLLMySQL::showTransactions(int idTili)
     qDebug() << "MYSQLDLL showTransactions sain tiliID: " << idTili;
     QSqlTableModel *tilitapahtumat = new QSqlTableModel;
     tilitapahtumat->setTable("tilitapahtumat");
-    tilitapahtumat->setFilter(QString("idTili='%1' ORDER BY tilitapahtumatAika").arg(idTili));
+    tilitapahtumat->setFilter(QString("idTili='%1' ORDER BY tilitapahtumatAika DESC limit 9").arg(idTili));
     tilitapahtumat->select();
     tilitapahtumat->removeColumns(0,2); //poistetaan ekat 2 saraketta..
     tilitapahtumat->setHeaderData(0, Qt::Horizontal, QObject::tr("Tapahtuma")); //nimetaan sarakkeet nayttoa varten.

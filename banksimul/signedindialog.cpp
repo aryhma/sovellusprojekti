@@ -71,6 +71,7 @@ void SignedInDialog::on_btnNosta_clicked()
     olioNosta = new Nosta(this);
     olioNosta->asetaId(idTili);
     olioNosta->asetaSaldo(olio2MysqlDLL->showBalance(idTili));
+    olioNosta->asetaTili(idTili);
     olioNosta->show();
 }
 

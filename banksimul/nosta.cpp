@@ -1,6 +1,8 @@
 #include <QMessageBox>
 #include "nosta.h"
 #include "ui_nosta.h"
+#include "dllmysql.h"
+#include <QMessageBox>
 
 Nosta::Nosta(QWidget *parent) :
     QDialog(parent),
@@ -51,19 +53,31 @@ void Nosta::on_btnPeruuta_clicked()
 
 void Nosta::on_btnnosta_clicked()
 {
-    if (nostoSumma > saldo)
+    if (nostoSumma>0)
     {
-        QMessageBox noMoney;
-        QString teksti = QString("Sinulla ei ole varaa. Saldosi on %1 euroa.").arg(saldo);
-        noMoney.setWindowTitle("No money window");
-        noMoney.setText(teksti);
-        noMoney.exec();
-    }
+    saldoP = olio3MysqlDLL->raiseMoney(idTili, nostoSumma);
+    //kanta palauttaa -1 arvon jos tilin saldo ei riita.
+    if (saldoP < 0)
+    {
+        saldoP = olio3MysqlDLL->showBalance(idTili);
+        QMessageBox eionnistu;
+        QString teksti = QString("Rahan nostaminen epäonnistui\n"
+                                 "Sinulla ei ole tilillä katetta\n\n"
+                                 "Tilin saldo on: %1 €").arg(saldoP);
+        eionnistu.setText(teksti);
+        eionnistu.exec();
+    }else
+    {
+        QMessageBox onnistui;
+        QString teksti = QString("Nosto suoritettu\n"
+                                 "Muistaa ottaa rahat\n\n"
+                                 "Tilille jäi rahaa : %1 €").arg(saldoP);
+        onnistui.setText(teksti);
+        onnistui.exec();
 
-    else
-    {
-        //Tänne Mysql päivitykset ja kyselyt
-        olioDll=new DLLMySQL;
+        //sammutetaan nosto ikkuna vain hyvaksytysta nostosta.
+        this->close();
+    }
     }
 }
 
