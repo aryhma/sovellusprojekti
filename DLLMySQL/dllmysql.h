@@ -22,6 +22,8 @@ public:
     QString DLLMYSQLSHARED_EXPORT getInvoiceDetails(int,int);
     double DLLMYSQLSHARED_EXPORT getInvoiceDetailsD(int);
     bool DLLMYSQLSHARED_EXPORT payInvoice(int,int,double);
+    QString DLLMYSQLSHARED_EXPORT getDonateInfo(int,int);
+    bool DLLMYSQLSHARED_EXPORT payDonation(int,int,int); //mita, milta,paljonko
 };
 
 #endif // DLLMYSQL_H

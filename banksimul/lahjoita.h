@@ -2,6 +2,7 @@
 #define LAHJOITA_H
 
 #include <QDialog>
+#include "dllmysql.h"
 
 namespace Ui {
 class Lahjoita;
@@ -33,9 +34,18 @@ private slots:
 
     void asetaTiedot(QString tilinumero, QString saaja, QString viite);
 
+    void haeTiedot(int);
+
+    void on_btnLahjoita_clicked();
+
 private:
     Ui::Lahjoita *ui;
 
+    DLLMySQL *olio5mysql;
+
+    QString tilinumero;
+    QString saaja;
+    QString viite;
     double saldo=0.0;
     int lahjoitusSumma=0;
     int idTili;

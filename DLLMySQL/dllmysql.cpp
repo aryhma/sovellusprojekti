@@ -298,3 +298,58 @@ bool DLLMySQL::payInvoice(int lasku,int idTili, double summa)
     //qDebug() << "MYSQLDLL raiseMoney palautus  saldo: " << saldosi;
     //return saldosi;
 }
+
+QString DLLMySQL::getDonateInfo(int id, int a)
+{
+    //mika tili tulee ja haetaan asiakasid
+    qDebug() << "MYSQLDLL getDonateInfo lahjoitus idee: " << id;
+
+    QSqlQuery donate;
+    donate.prepare("select tiliNumero,saaja,viite from lahjoituskohteet where idKohde=:id");
+    donate.bindValue(":id", id);
+    donate.exec();
+    donate.first();
+    QString arvo = donate.value(a).toString();
+
+    qDebug() << "DLLMySQL getDonateInfo arvo oli: " << arvo;
+    return arvo;
+}
+
+bool DLLMySQL::payDonation(int id,int idTili, int summa)
+{
+    //mika lasku numero tulee
+    qDebug() << "MYSQLDLL payDonation id:" << id << "idTili:" << idTili << "summan : " << summa;
+
+    //ensin pitaa tarkistaa onko tililla katetta..
+    QSqlQuery saldo;
+    saldo.prepare("select tiliSaldo from tili where idTili=:tili");
+    saldo.bindValue(":tili", idTili);
+    saldo.exec();
+    saldo.first();
+    double saldosi = saldo.value(0).toDouble();
+    qDebug() << "DLLMySQL payDonation saldo kannasta ennen paivitysta on: " << saldosi;
+
+    if (saldosi >= summa)
+    {
+        qDebug() << "DLLMySQL payInvoice, tehdaan kanta updatet";
+        QSqlQuery insert1;
+        insert1.prepare("INSERT INTO tilitapahtumat (idTili,tilitapahtumatLaji,tilitapahtumatSumma,tilitapahtumatAika) "
+                        "VALUES (:tili, 'lahjoitus',:sum,now())");
+        insert1.bindValue(":tili", idTili);
+        insert1.bindValue(":sum", summa);
+        insert1.exec();
+
+        QSqlQuery update;
+        update.prepare("update tili set tiliSaldo=tiliSaldo-:sum where idTili=:tili");
+        update.bindValue(":tili", idTili);
+        update.bindValue(":sum", summa);
+        update.exec();
+
+        return true;
+
+    }else
+    {
+       return false;
+    }
+
+}
