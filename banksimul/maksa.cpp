@@ -46,23 +46,30 @@ void Maksa::on_btnHaeTiedot_clicked()
 
 void Maksa::on_btnMaksa_clicked()
 {
-    bool testi = olio4mysql->payInvoice(laskuID,idTili,summa);
-    if (testi==true)
+    if (summa>0)
     {
-        QMessageBox onnistui;
-        QString teksti = QString("Laskun maksu onnistui");
-        onnistui.setText(teksti);
-        onnistui.exec();
-    }else
-    {
-        QMessageBox eionnistu;
-        QString teksti = QString("Laskun maksu ei onnistu, tililla ei ole katetta.");
-        eionnistu.setText(teksti);
-        eionnistu.exec();
+        bool testi = olio4mysql->payInvoice(laskuID,idTili,summa);
+        if (testi==true)
+        {
+            QMessageBox onnistui;
+            double saldo = olio4mysql->showBalance(idTili);
+            QString teksti = QString("Laskun maksu onnistui.\n\n"
+                                     "Tilille jai rahaa: %1 €").arg(saldo);
+            onnistui.setText(teksti);
+            onnistui.exec();
+        }else
+        {
+            QMessageBox eionnistu;
+            double saldo = olio4mysql->showBalance(idTili);
+            QString teksti = QString("Laskun maksu ei onnistu, tililla ei ole katetta.\n\n"
+                                     "Tilillä on rahaa: %1 €").arg(saldo);
+            eionnistu.setText(teksti);
+            eionnistu.exec();
+        }
+        tyhjenna();
+        laskujenMaara = olio4mysql->invoiceCount(idTili);
+        ui->lblMaksamatta->setText("Laskuja maksamatta "+ QString::number(laskujenMaara)+ " kpl");
     }
-    tyhjenna();
-    laskujenMaara = olio4mysql->invoiceCount(idTili);
-    ui->lblMaksamatta->setText("Laskuja maksamatta "+ QString::number(laskujenMaara)+ " kpl");
 }
 
 void Maksa::asetaTiedot(QString tilinumero, QString saaja, QString viite, double summa)

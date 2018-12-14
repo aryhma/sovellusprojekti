@@ -70,15 +70,19 @@ void Lahjoita::on_btnLahjoita_clicked()
     if (x == true)
     {
         QMessageBox onnistui;
+        double saldo = olio5mysql->showBalance(idTili);
         QString teksti = QString("Lahjoitus onnistui.\n"
-                                 "Kiitos lahjoituksesta.");
+                                 "Tilille jai rahaa: %1 €\n\n"
+                                 "Kiitos lahjoituksesta.").arg(saldo);
         onnistui.setText(teksti);
         onnistui.exec();
         this->close();
     }else
     {
+        double saldo = olio5mysql->showBalance(idTili);
         QMessageBox eionnistu;
-        QString teksti = QString("Lahjoitus epäonnistui, tililla ei ole katetta.");
+        QString teksti = QString("Lahjoitus epäonnistui, tililla ei ole katetta.\n"
+                                 "Tilin saldo on: %1 €").arg(saldo);
         eionnistu.setText(teksti);
         eionnistu.exec();
     }

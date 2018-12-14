@@ -41,7 +41,7 @@ private:
     double laskunSumma=0;
     int idTili;
     int laskuID=0;
-    double summa;
+    double summa = 0;
 };
 
 #endif // MAKSA_H
