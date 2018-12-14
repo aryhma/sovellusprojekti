@@ -125,3 +125,8 @@ void MainWindow::login(QString id)
     qDebug() << "MainWindow idTili: " << idTili << endl; //taman perusteella voidaan paatella onko kortti hyvaksytty. 0 ei ole yli nolla on.
 }
 
+
+void MainWindow::on_btnSammuta_clicked()
+{
+    this->close();
+}

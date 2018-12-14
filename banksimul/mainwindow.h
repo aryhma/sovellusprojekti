@@ -29,6 +29,8 @@ private slots:
     void login(QString);
     void on_pushButton_clicked();
 
+    void on_btnSammuta_clicked();
+
 public slots:
     void validatePIN(QString pin);
 
