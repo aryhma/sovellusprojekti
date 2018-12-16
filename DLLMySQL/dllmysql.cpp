@@ -28,7 +28,7 @@ bool DLLMySQL::mysqlconnection()
     }
 }
 
-bool DLLMySQL::validateCard(QString cardId)
+int DLLMySQL::validateCard(QString cardId)
 {
     qDebug() << "MYSQLDLL sain kortin:" << cardId;
 
@@ -38,7 +38,7 @@ bool DLLMySQL::validateCard(QString cardId)
     haku.exec();
     haku.next();
     int idTili = haku.value(0).toInt();
-    qDebug() << "MYSQLDLL qsqlquery testi idTili:" << idTili << endl;
+    qDebug() << "MYSQLDLL qsqlquery idTili:" << idTili << endl;
 
 
     /*QSqlTableModel *kortti = new QSqlTableModel();
@@ -61,7 +61,7 @@ bool DLLMySQL::validateCard(QString cardId)
 
 }
 
-bool DLLMySQL::validatePINCode(QString pin2, int tili)
+int DLLMySQL::validatePINCode(QString pin2, int tili)
 {
     //QString tili2 = QString::number(tili);
     qDebug() << "MYSQLDLL sain pinnin: " << pin2 << " ja tili ideen :" << tili;

@@ -10,8 +10,8 @@ class DLLMYSQLSHARED_EXPORT DLLMySQL
 
 public:
     DLLMySQL();
-    bool DLLMYSQLSHARED_EXPORT validateCard(QString cardId);
-    bool DLLMYSQLSHARED_EXPORT validatePINCode(QString , int);
+    int DLLMYSQLSHARED_EXPORT validateCard(QString cardId);
+    int DLLMYSQLSHARED_EXPORT validatePINCode(QString , int);
     bool DLLMYSQLSHARED_EXPORT mysqlconnection();
     QString DLLMYSQLSHARED_EXPORT findName(int);
     double DLLMYSQLSHARED_EXPORT raiseMoney(int, int);
