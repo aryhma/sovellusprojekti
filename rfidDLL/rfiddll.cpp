@@ -35,12 +35,9 @@ void RfidDLL::readByteStream()
 
     if (bytesread>10)
     {
-        for (int i=0;i<=9;i++)
-        {
-            cardSerialNumber = data;
-        }
+        cardSerialNumber = data;
         cardSerialNumber.remove(0, 3);
-
+        cardSerialNumber.chop(3);
         qDebug() << "RfidDLL->cardSerialNumber: " << cardSerialNumber;
     }
     else
