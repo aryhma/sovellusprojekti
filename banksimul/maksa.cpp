@@ -7,11 +7,17 @@ Maksa::Maksa(QWidget *parent) :
     ui(new Ui::Maksa)
 {
     ui->setupUi(this);
+    olio4mysql = new DLLMySQL;
+    connect(olio4mysql, SIGNAL(lahetaSumma(double)), this, SLOT(asetaSumma(double)));
+    connect(olio4mysql, SIGNAL(sendTili(QString)), this, SLOT(asetaTili(QString)));
+    connect(olio4mysql, SIGNAL(sendSaaja(QString)), this, SLOT(asetaSaaja(QString)));
+    connect(olio4mysql, SIGNAL(sendViite(QString)), this, SLOT(asetaViite(QString)));
 }
 
 Maksa::~Maksa()
 {
     delete ui;
+    delete olio4mysql;
 }
 
 void Maksa::on_btnPeruuta_clicked()
@@ -29,16 +35,18 @@ void Maksa::on_btnHaeTiedot_clicked()
     else
     {
         laskuID = olio4mysql->getInvoiceId(idTili);
-        QString tili = olio4mysql->getInvoiceDetails(laskuID,0);
-        QString saaja = olio4mysql->getInvoiceDetails(laskuID,1);
-        QString viite = olio4mysql->getInvoiceDetails(laskuID,2);
-        summa = olio4mysql->getInvoiceDetailsD(laskuID);
+        olio4mysql->getInvoiceDetails(laskuID);
+        //QString tili = olio4mysql->getInvoiceDetails(laskuID,0);
+        //QString saaja = olio4mysql->getInvoiceDetails(laskuID,1);
+        //QString viite = olio4mysql->getInvoiceDetails(laskuID,2);
+        //olio4mysql->getInvoiceDetailsD(laskuID);
+        //summa = olio4mysql->getInvoiceDetailsD(laskuID);
        //static QString testitili = "fi23334323";
        //static QString testisaaja = "Matti Meikalainen";
        //static QString testiviite = "3332 2222 33333";
        //static double testisumma = 324.55;
 
-        asetaTiedot(tili,saaja,viite,summa);
+        asetaTiedot(tilinumero,saaja,viite,summa);
         ui->lblMaksamatta->setText("Laskuja maksamatta "+ QString::number(laskujenMaara)+ " kpl");
     }
 }

@@ -70,6 +70,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete olioRfidDLL;
     delete olioSignedIn;
+    delete olioMysqlDLL;
 }
 
 void MainWindow::on_pushButton_clicked()

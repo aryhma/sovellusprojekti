@@ -14,6 +14,7 @@ Nosta::Nosta(QWidget *parent) :
 Nosta::~Nosta()
 {
     delete ui;
+    delete olio3MysqlDLL;
 }
 
 void Nosta::on_btn20_clicked()

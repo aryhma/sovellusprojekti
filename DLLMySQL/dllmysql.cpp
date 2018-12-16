@@ -11,9 +11,7 @@
 
 using namespace std;
 
-DLLMySQL::DLLMySQL()
-{
-}
+DLLMySQL::DLLMySQL(){};
 
 bool DLLMySQL::mysqlconnection()
 {
@@ -222,7 +220,7 @@ int DLLMySQL::getInvoiceId(int idTili)
     return idee;
 }
 
-QString DLLMySQL::getInvoiceDetails(int lasku, int a)
+void DLLMySQL::getInvoiceDetails(int lasku)
 {
     //mika tili tulee ja haetaan asiakasid
     qDebug() << "MYSQLDLL getInvoiceDetails sain laskun ideen: " << lasku;
@@ -232,13 +230,22 @@ QString DLLMySQL::getInvoiceDetails(int lasku, int a)
     invoice.bindValue(":id", lasku);
     invoice.exec();
     invoice.first();
-    QString arvo = invoice.value(a).toString();
+    QString tili = invoice.value(0).toString();
+    QString saaja = invoice.value(1).toString();
+    QString viite = invoice.value(2).toString();
+    double summa = invoice.value(3).toDouble();
 
-    qDebug() << "DLLMySQL getInvoiceDetails arvo oli: " << arvo;
-    return arvo;
+    emit sendTili(tili);
+    emit sendSaaja(saaja);
+    emit sendViite(viite);
+    emit lahetaSumma(summa);
+    //emit lahetatiedot(arvo,arvo,arvo);
+
+    qDebug() << "DLLMySQL getInvoiceDetails:" << tili << "," << saaja << "," << viite << "," << summa;
+    //return tili;
 }
 
-double DLLMySQL::getInvoiceDetailsD(int lasku)
+/*double DLLMySQL::getInvoiceDetailsD(int lasku)
 {
     //mika lasku numero tulee
     qDebug() << "MYSQLDLL getInvoiceDetailsD sain laskun ideen: " << lasku;
@@ -250,9 +257,11 @@ double DLLMySQL::getInvoiceDetailsD(int lasku)
     invoice.first();
     double arvo = invoice.value(0).toDouble();
 
+    //emit lahetaSumma(arvo);
+
     qDebug() << "DLLMySQL getInvoiceDetailsD arvo oli: " << arvo;
     return arvo;
-}
+}*/
 
 bool DLLMySQL::payInvoice(int lasku,int idTili, double summa)
 {
@@ -299,7 +308,7 @@ bool DLLMySQL::payInvoice(int lasku,int idTili, double summa)
     //return saldosi;
 }
 
-QString DLLMySQL::getDonateInfo(int id, int a)
+void DLLMySQL::getDonateInfo(int id)
 {
     //mika tili tulee ja haetaan asiakasid
     qDebug() << "MYSQLDLL getDonateInfo lahjoitus idee: " << id;
@@ -309,10 +318,16 @@ QString DLLMySQL::getDonateInfo(int id, int a)
     donate.bindValue(":id", id);
     donate.exec();
     donate.first();
-    QString arvo = donate.value(a).toString();
+    QString tili = donate.value(0).toString();
+    QString saaja = donate.value(1).toString();
+    QString viite = donate.value(2).toString();
 
-    qDebug() << "DLLMySQL getDonateInfo arvo oli: " << arvo;
-    return arvo;
+    emit sendTili(tili);
+    emit sendSaaja(saaja);
+    emit sendViite(viite);
+
+    qDebug() << "DLLMySQL getDonateInfo arvot oli: " << tili << "," << saaja << "," << viite;
+    //return true;
 }
 
 bool DLLMySQL::payDonation(int id,int idTili, int summa)

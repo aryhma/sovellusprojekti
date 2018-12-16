@@ -1,17 +1,24 @@
 #include "lahjoita.h"
 #include "ui_lahjoita.h"
 #include <QMessageBox>
+#include "dllmysql.h"
+
 
 Lahjoita::Lahjoita(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Lahjoita)
 {
     ui->setupUi(this);
+    olio5mysql = new DLLMySQL;
+    connect(olio5mysql, SIGNAL(sendTili(QString)), this, SLOT(asetaTili(QString)));
+    connect(olio5mysql, SIGNAL(sendSaaja(QString)), this, SLOT(asetaSaaja(QString)));
+    connect(olio5mysql, SIGNAL(sendViite(QString)), this, SLOT(asetaViite(QString)));
 }
 
 Lahjoita::~Lahjoita()
 {
     delete ui;
+    delete olio5mysql;
 }
 
 void Lahjoita::on_btnBack_clicked()
@@ -57,10 +64,12 @@ void Lahjoita::asetaTiedot(QString tilinumero, QString saaja, QString viite)
 
 void Lahjoita::haeTiedot(int id)
 {
-    int a = id;
-    tilinumero = olio5mysql->getDonateInfo(a,0);
-    saaja = olio5mysql->getDonateInfo(a,1);
-    viite = olio5mysql->getDonateInfo(a,2);
+    //int a = id;
+    olio5mysql->getDonateInfo(id);
+
+    //tilinumero = olio5mysql->getDonateInfo(a,0);
+    //saaja = olio5mysql->getDonateInfo(a,1);
+    //viite = olio5mysql->getDonateInfo(a,2);
 }
 
 void Lahjoita::on_btnLahjoita_clicked()

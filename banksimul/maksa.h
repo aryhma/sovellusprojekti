@@ -20,6 +20,9 @@ public:
     void asetaTili(int i){idTili = i;}
     void asetaLaskujenMaara(int m){laskujenMaara=m;}
 
+public slots:
+
+
 private slots:
     void on_btnPeruuta_clicked();
 
@@ -31,10 +34,19 @@ private slots:
 
     void on_btnMaksa_clicked();
 
+    void asetaSumma(double i){summa=i;}
+    void asetaTili(QString a){tilinumero=a;}
+    void asetaViite(QString a){viite=a;}
+    void asetaSaaja(QString a){saaja=a;}
+
 private:
     Ui::Maksa *ui;
 
     DLLMySQL *olio4mysql;
+
+    QString tilinumero;
+    QString saaja;
+    QString viite;
 
     double saldo=0.0;
     int laskujenMaara=0;

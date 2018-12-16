@@ -28,7 +28,7 @@ SignedInDialog::~SignedInDialog()
     delete olioNosta;
     delete olioLahjoita;
     delete olioMaksa;
-    //delete olio2MysqlDLL;
+    delete olio2MysqlDLL;
 }
 
 void SignedInDialog::asetaOtsikko()

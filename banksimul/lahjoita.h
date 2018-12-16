@@ -19,6 +19,12 @@ public:
     void asetaSaldo(double s){saldo=s;}
     void asetaTili(int i){idTili = i;}
 
+public  slots:
+    void asetaTiedot(QString tilinumero, QString saaja, QString viite);
+    void asetaTili(QString a){tilinumero=a;}
+    void asetaViite(QString a){viite=a;}
+    void asetaSaaja(QString a){saaja=a;}
+
 private slots:
     void on_btnBack_clicked();
 
@@ -32,7 +38,7 @@ private slots:
 
     void on_sBoxLahjSumma_valueChanged();
 
-    void asetaTiedot(QString tilinumero, QString saaja, QString viite);
+    //void asetaTiedot(QString tilinumero, QString saaja, QString viite);
 
     void haeTiedot(int);
 
@@ -43,9 +49,9 @@ private:
 
     DLLMySQL *olio5mysql;
 
-    QString tilinumero;
-    QString saaja;
-    QString viite;
+    QString tilinumero ="";
+    QString saaja = "";
+    QString viite = "";
     double saldo=0.0;
     int lahjoitusSumma=0;
     int idTili;
