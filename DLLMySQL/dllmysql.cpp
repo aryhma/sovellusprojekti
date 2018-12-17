@@ -175,12 +175,12 @@ double DLLMySQL::showBalance(int idTili)
     return saldosi;
 }
 
-QSqlTableModel* DLLMySQL::showTransactions(int idTili)
+QSqlTableModel* DLLMySQL::showTransactions(int idTili, int tapahtumiaKpl) // tapahtumiaKpl rajaamaan tapahtumien lukumäärää
 {
     qDebug() << "MYSQLDLL showTransactions sain tiliID: " << idTili;
     QSqlTableModel *tilitapahtumat = new QSqlTableModel;
     tilitapahtumat->setTable("tilitapahtumat");
-    tilitapahtumat->setFilter(QString("idTili='%1' ORDER BY tilitapahtumatAika DESC").arg(idTili));
+    tilitapahtumat->setFilter(QString("idTili='%1' ORDER BY tilitapahtumatAika DESC LIMIT %2").arg(idTili).arg(tapahtumiaKpl));
     tilitapahtumat->select();
     tilitapahtumat->removeColumns(0,2); //poistetaan ekat 2 saraketta..
     tilitapahtumat->setHeaderData(0, Qt::Horizontal, QObject::tr("Tapahtuma")); //nimetaan sarakkeet nayttoa varten.

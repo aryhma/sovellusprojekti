@@ -9,7 +9,6 @@ Saldo::Saldo(QWidget *parent) :
     ui(new Ui::Saldo)
 {
     ui->setupUi(this);
-
 }
 
 Saldo::~Saldo()
@@ -28,6 +27,10 @@ void Saldo::asetaKayttaja(QString kayt)
     ui->lblOmistaja->setText(ui->lblOmistaja->text() + kayt);
 }
 
+void Saldo::naytaTapahtumat(int tiliId)
+{
+     ui->tableView->setModel(olioSaldoMysqlDLL->showTransactions(tiliId,5));
+}
 void Saldo::on_btnTakaisin_clicked()
 {
     ui->lblOmistaja->setText("Tilinomistaja:    "); //Kentät tyhjennettävä valmiiksi seuraavaan kertaan.

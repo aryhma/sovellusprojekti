@@ -28,6 +28,7 @@ public:
 signals:
     void sendBalance(double);
     void lahetaKayttaja(QString);
+    void lahetaTiliId(int);
 
 private slots:
 

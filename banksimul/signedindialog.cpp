@@ -18,6 +18,7 @@ SignedInDialog::SignedInDialog(QWidget *parent) :
     olioSaldo = new Saldo(this);
     connect(this, SIGNAL(sendBalance(double)), olioSaldo, SLOT(naytaSaldo(double)));
     connect(this, SIGNAL(lahetaKayttaja(QString)), olioSaldo, SLOT(asetaKayttaja(QString)));
+    connect(this, SIGNAL(lahetaTiliId(int)), olioSaldo, SLOT(naytaTapahtumat(int)));
 
 }
 
@@ -44,8 +45,10 @@ void SignedInDialog::on_btnUlos_clicked()
 void SignedInDialog::on_btnSaldo_clicked()
 {
     double saldo = olio2MysqlDLL->showBalance(idTili);
+
     emit sendBalance(saldo);
     emit lahetaKayttaja(Kayttaja);
+    emit lahetaTiliId(idTili);
     olioSaldo->show();
     /*
     QMessageBox saldoo;
@@ -68,7 +71,6 @@ void SignedInDialog::on_btnTapahtumat_clicked()
     tapahtumat->show();
     //QTableView *view1 = new createView(olio2MysqlDLL->showTransactions(idTili)  , QObject::tr("Table Model (View 1)"));
     //view1->show();*/
-
     showTable();
 }
 
@@ -105,7 +107,7 @@ void SignedInDialog::showTable()
     QTableView *tapahtumat = new QTableView;
 
     tableWindow->setWindowTitle("Tilitapahtumat");
-    tapahtumat->setModel(olio2MysqlDLL->showTransactions(idTili));
+    tapahtumat->setModel(olio2MysqlDLL->showTransactions(idTili,15));
     tapahtumat->resizeColumnToContents(0);
     tableWindow->resize(350,400);
     tableLay->addWidget(tapahtumat);

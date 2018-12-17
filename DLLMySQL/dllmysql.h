@@ -17,7 +17,7 @@ public:
     QString DLLMYSQLSHARED_EXPORT findName(int);
     double DLLMYSQLSHARED_EXPORT raiseMoney(int, int);
     double DLLMYSQLSHARED_EXPORT showBalance(int);
-    QSqlTableModel *showTransactions(int);
+    QSqlTableModel *showTransactions(int, int);
     int DLLMYSQLSHARED_EXPORT invoiceCount(int);
     int DLLMYSQLSHARED_EXPORT getInvoiceId(int);
     void DLLMYSQLSHARED_EXPORT getInvoiceDetails(int);
