@@ -63,13 +63,8 @@ void Lahjoita::asetaTiedot(QString tilinumero, QString saaja, QString viite)
 }
 
 void Lahjoita::haeTiedot(int id)
-{
-    //int a = id;
+{  
     olio5mysql->getDonateInfo(id);
-
-    //tilinumero = olio5mysql->getDonateInfo(a,0);
-    //saaja = olio5mysql->getDonateInfo(a,1);
-    //viite = olio5mysql->getDonateInfo(a,2);
 }
 
 void Lahjoita::on_btnLahjoita_clicked()
@@ -86,13 +81,15 @@ void Lahjoita::on_btnLahjoita_clicked()
         onnistui.setText(teksti);
         onnistui.exec();
         this->close();
-    }else
-    {
-        double saldo = olio5mysql->showBalance(idTili);
-        QMessageBox eionnistu;
-        QString teksti = QString("Lahjoitus epäonnistui, tililla ei ole katetta.\n"
-                                 "Tilin saldo on: %1 €").arg(saldo);
-        eionnistu.setText(teksti);
-        eionnistu.exec();
     }
+
+        else
+        {
+            double saldo = olio5mysql->showBalance(idTili);
+            QMessageBox eionnistu;
+            QString teksti = QString("Lahjoitus epäonnistui, tililla ei ole katetta.\n"
+                                     "Tilin saldo on: %1 €").arg(saldo);
+            eionnistu.setText(teksti);
+            eionnistu.exec();
+        }
 }

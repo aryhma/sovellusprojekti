@@ -35,25 +35,9 @@ int DLLMySQL::validateCard(QString cardId)
     haku.bindValue(":tunniste", cardId);
     haku.exec();
     haku.next();
+
     int idTili = haku.value(0).toInt();
     qDebug() << "MYSQLDLL qsqlquery idTili:" << idTili << endl;
-
-
-    /*QSqlTableModel *kortti = new QSqlTableModel();
-    kortti->setTable("kortti");
-    kortti->setFilter(QString("korttiTunniste='%1'").arg(cardId));
-    kortti->select();*/
-    //qDebug() << "MYSQLDLL sain: " << tulos << "recordia" << endl;
-
-    //tuloksen debuggausta varten..
-    /*QString id = kortti->data(kortti->index(0,0)).toString();
-    QString tili = kortti->data(kortti->index(0,1)).toString();
-    QString korttiN = kortti->data(kortti->index(0,2)).toString();
-    qDebug() <<"idkortti: " << id <<" idTili: " << tili << " idKortti: " << korttiN;*/
-
-    /*idTili = 0;
-    idTili = kortti->record(0).value("idTili").toInt();*/
-    //qDebug() << "tili id inttina: " << idTili << endl;
 
     return idTili;
 
@@ -61,7 +45,6 @@ int DLLMySQL::validateCard(QString cardId)
 
 int DLLMySQL::validatePINCode(QString pin2, int tili)
 {
-    //QString tili2 = QString::number(tili);
     qDebug() << "MYSQLDLL sain pinnin: " << pin2 << " ja tili ideen :" << tili;
 
     QSqlTableModel *pin = new QSqlTableModel();
@@ -70,7 +53,6 @@ int DLLMySQL::validatePINCode(QString pin2, int tili)
     pin->select();
 
     int rivit = pin->rowCount();
-    //idTili = pin->record(0).value("idTili").toInt();
     qDebug() << "DLLMySQL pin kyseselyn rivi maara: " << rivit;
 
     return rivit;
@@ -89,27 +71,10 @@ QString DLLMySQL::findName(int idTili)
     QString etunimi = nimi.value(0).toString();
     QString sukunimi = nimi.value(1).toString();
 
-    /*QSqlTableModel *name = new QSqlTableModel();
-    name->setTable("tili");
-    name->setFilter(QString("idTili='%1'").arg(idTili));
-    name->select();
-
-    int idAsiakas = name->record(0).value("idAsiakas").toInt();
-    qDebug() << "DLLMySQL kannasta haettu asiakasid: " << idAsiakas;
-
-    QSqlTableModel *flname = new QSqlTableModel();
-    flname->setTable("asiakas");
-    flname->setFilter(QString("idAsiakas='%1'").arg(idAsiakas));
-    flname->select();
-
-    //int rivit = flname->rowCount();
-    //qDebug() << "rivi maara: " << rivit;
-    QString etunimi = flname->data(flname->index(0,1)).toString();
-    QString sukunimi = flname->data(flname->index(0,2)).toString();*/
-    //QString etunimi = flname->record(0).value("etunimi");
     qDebug() << "DLLMySQL etunimi:" << etunimi << "sukunimi:" << sukunimi;
     QString fullname = etunimi + " " + sukunimi;
     qDebug() << "DLLMySQL nimi:" << fullname;
+
     return fullname;
 }
 
@@ -150,12 +115,14 @@ double DLLMySQL::raiseMoney(int idTili, int nosto)
         saldo2.first();
         saldosi = saldo2.value(0).toDouble();
 
-    }else
-    {
-       saldosi=-1;
     }
+        else
+        {
+           saldosi=-1;
+        }
 
     qDebug() << "MYSQLDLL raiseMoney palautus  saldo: " << saldosi;
+
     return saldosi;
 }
 
@@ -172,6 +139,7 @@ double DLLMySQL::showBalance(int idTili)
     double saldosi = saldo.value(0).toDouble();
 
     qDebug() << "DLLMySQL showBalance saldo on: " << saldosi;
+
     return saldosi;
 }
 
@@ -186,6 +154,7 @@ QSqlTableModel* DLLMySQL::showTransactions(int idTili, int tapahtumiaKpl) // tap
     tilitapahtumat->setHeaderData(0, Qt::Horizontal, QObject::tr("Tapahtuma")); //nimetaan sarakkeet nayttoa varten.
     tilitapahtumat->setHeaderData(1, Qt::Horizontal, QObject::tr("Summa"));
     tilitapahtumat->setHeaderData(2, Qt::Horizontal, QObject::tr("Paivamaara"));
+
     return tilitapahtumat;
 }
 
@@ -201,6 +170,7 @@ int DLLMySQL::invoiceCount(int idTili)
     int montako = invoice.size();
 
     qDebug() << "DLLMySQL nextInvoice laskuja oli: " << montako;
+
     return montako;
 }
 
@@ -217,6 +187,7 @@ int DLLMySQL::getInvoiceId(int idTili)
     int idee = invoiceID.value(0).toInt();
 
     qDebug() << "DLLMySQL getInvoiceId idee oli: " << idee;
+
     return idee;
 }
 
@@ -230,6 +201,7 @@ void DLLMySQL::getInvoiceDetails(int lasku)
     invoice.bindValue(":id", lasku);
     invoice.exec();
     invoice.first();
+
     QString tili = invoice.value(0).toString();
     QString saaja = invoice.value(1).toString();
     QString viite = invoice.value(2).toString();
@@ -239,29 +211,9 @@ void DLLMySQL::getInvoiceDetails(int lasku)
     emit sendSaaja(saaja);
     emit sendViite(viite);
     emit lahetaSumma(summa);
-    //emit lahetatiedot(arvo,arvo,arvo);
 
     qDebug() << "DLLMySQL getInvoiceDetails:" << tili << "," << saaja << "," << viite << "," << summa;
-    //return tili;
 }
-
-/*double DLLMySQL::getInvoiceDetailsD(int lasku)
-{
-    //mika lasku numero tulee
-    qDebug() << "MYSQLDLL getInvoiceDetailsD sain laskun ideen: " << lasku;
-
-    QSqlQuery invoice;
-    invoice.prepare("select summa from laskut where idLasku=:id order by idLasku");
-    invoice.bindValue(":id", lasku);
-    invoice.exec();
-    invoice.first();
-    double arvo = invoice.value(0).toDouble();
-
-    //emit lahetaSumma(arvo);
-
-    qDebug() << "DLLMySQL getInvoiceDetailsD arvo oli: " << arvo;
-    return arvo;
-}*/
 
 bool DLLMySQL::payInvoice(int lasku,int idTili, double summa)
 {
@@ -274,6 +226,7 @@ bool DLLMySQL::payInvoice(int lasku,int idTili, double summa)
     saldo.bindValue(":tili", idTili);
     saldo.exec();
     saldo.first();
+
     double saldosi = saldo.value(0).toDouble();
     qDebug() << "DLLMySQL raiseMoney saldo kannasta ennen paivitysta on: " << saldosi;
 
@@ -297,15 +250,14 @@ bool DLLMySQL::payInvoice(int lasku,int idTili, double summa)
         update2.prepare("update laskut set maksettu=1 where idLasku=:id");
         update2.bindValue(":id", lasku);
         update2.exec();
+
         return true;
 
-    }else
-    {
-       return false;
     }
-
-    //qDebug() << "MYSQLDLL raiseMoney palautus  saldo: " << saldosi;
-    //return saldosi;
+        else
+        {
+           return false;
+        }
 }
 
 void DLLMySQL::getDonateInfo(int id)
@@ -318,6 +270,7 @@ void DLLMySQL::getDonateInfo(int id)
     donate.bindValue(":id", id);
     donate.exec();
     donate.first();
+
     QString tili = donate.value(0).toString();
     QString saaja = donate.value(1).toString();
     QString viite = donate.value(2).toString();
@@ -327,7 +280,6 @@ void DLLMySQL::getDonateInfo(int id)
     emit sendViite(viite);
 
     qDebug() << "DLLMySQL getDonateInfo arvot oli: " << tili << "," << saaja << "," << viite;
-    //return true;
 }
 
 bool DLLMySQL::payDonation(int id,int idTili, int summa)
@@ -341,6 +293,7 @@ bool DLLMySQL::payDonation(int id,int idTili, int summa)
     saldo.bindValue(":tili", idTili);
     saldo.exec();
     saldo.first();
+
     double saldosi = saldo.value(0).toDouble();
     qDebug() << "DLLMySQL payDonation saldo kannasta ennen paivitysta on: " << saldosi;
 
@@ -362,9 +315,10 @@ bool DLLMySQL::payDonation(int id,int idTili, int summa)
 
         return true;
 
-    }else
-    {
-       return false;
     }
+        else
+        {
+           return false;
+        }
 
 }

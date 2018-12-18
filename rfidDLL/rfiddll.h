@@ -11,7 +11,6 @@ class RFIDDLLSHARED_EXPORT RfidDLL: public QObject
     Q_OBJECT
 public:
     RfidDLL();
-    void RFIDDLLSHARED_EXPORT initialiseSerialPort();
 
 private:
     QSerialPort *serial;
@@ -25,6 +24,7 @@ private slots:
 
 public slots:
     void RFIDDLLSHARED_EXPORT simulateUserLoggedIn();
+    void RFIDDLLSHARED_EXPORT initialiseSerialPort();
 };
 
 #endif // RFIDDLL_H

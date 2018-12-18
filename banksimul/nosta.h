@@ -16,7 +16,9 @@ public:
     explicit Nosta(QWidget *parent = nullptr);
     ~Nosta();
 
+public slots:
     void asetaSaldo(double s){saldo=s;}
+
     void asetaTili(int t){idTili=t;}
 
 private slots:

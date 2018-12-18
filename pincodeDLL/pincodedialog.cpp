@@ -6,7 +6,6 @@ PincodeDialog::PincodeDialog(QWidget *parent) :
     ui(new Ui::PincodeDialog)
 {
     ui->setupUi(this);
-
 }
 
 PincodeDialog::~PincodeDialog()

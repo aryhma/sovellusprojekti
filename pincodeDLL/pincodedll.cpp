@@ -7,10 +7,6 @@ PincodeDLL::PincodeDLL()
     qDebug() << "PincodedDLL->DLL created, initialising";
 }
 
-void PincodeDLL::initialise()
-{
-}
-
 void PincodeDLL::getPIN(QWidget *parent)
 {
     qDebug() << "PincodedDLL->creating UI";

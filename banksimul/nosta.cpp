@@ -56,31 +56,33 @@ void Nosta::on_btnnosta_clicked()
 {
     if (nostoSumma>0)
     {
-    saldoP = olio3MysqlDLL->raiseMoney(idTili, nostoSumma);
-    //kanta palauttaa -1 arvon jos tilin saldo ei riita.
-    if (saldoP < 0)
-    {
-        saldoP = olio3MysqlDLL->showBalance(idTili);
-        QMessageBox eionnistu;
-        QString teksti = QString("Rahan nostaminen epäonnistui\n"
-                                 "Sinulla ei ole tilillä katetta\n\n"
-                                 "Tilin saldo on: %1 €").arg(saldoP);
-        eionnistu.setWindowTitle("Kuitti");
-        eionnistu.setText(teksti);
-        eionnistu.exec();
-    }else
-    {
-        QMessageBox onnistui;
-        QString teksti = QString("Nosto suoritettu\n"
-                                 "Muistaa ottaa rahat\n\n"
-                                 "Tilille jäi rahaa : %1 €").arg(saldoP);
-        onnistui.setWindowTitle("Kuitti");
-        onnistui.setText(teksti);
-        onnistui.exec();
+        saldoP = olio3MysqlDLL->raiseMoney(idTili, nostoSumma);
 
-        //sammutetaan nosto ikkuna vain hyvaksytysta nostosta.
-        this->close();
-    }
+        //kanta palauttaa -1 arvon jos tilin saldo ei riita.
+        if (saldoP < 0)
+        {
+            saldoP = olio3MysqlDLL->showBalance(idTili);
+            QMessageBox eionnistu;
+            QString teksti = QString("Rahan nostaminen epäonnistui\n"
+                                     "Sinulla ei ole tilillä katetta\n\n"
+                                     "Tilin saldo on: %1 €").arg(saldoP);
+            eionnistu.setWindowTitle("Kuitti");
+            eionnistu.setText(teksti);
+            eionnistu.exec();
+        }
+            else
+            {
+                QMessageBox onnistui;
+                QString teksti = QString("Nosto suoritettu\n"
+                                         "Muistaa ottaa rahat\n\n"
+                                         "Tilille jäi rahaa : %1 €").arg(saldoP);
+                onnistui.setWindowTitle("Kuitti");
+                onnistui.setText(teksti);
+                onnistui.exec();
+
+                //sammutetaan nosto ikkuna vain hyvaksytysta nostosta.
+                this->close();
+            }
     }
 }
 

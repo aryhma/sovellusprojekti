@@ -13,11 +13,10 @@ static bool createConnection()
     db.setHostName("mysli.oamk.fi");
     db.setDatabaseName("opisk_t7muto00");
     db.setUserName("t7muto00");
-    db.setPassword("");
-    if (!db.open()) {
-        //QMessageBox::critical(0, qApp->tr("Cannot open database"),
-        //qApp->tr("Unable to establish a database connection.\n"),
-        //QMessageBox::Cancel);
+    db.setPassword("9tBrprWya6LLEYgE");
+
+    if (!db.open())
+    {
         return false;
     }
 

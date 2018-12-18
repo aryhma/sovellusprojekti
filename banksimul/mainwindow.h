@@ -7,9 +7,6 @@
 #include "dllmysql.h"
 #include "rfiddll.h"
 #include "pincodedll.h"
-//#include "dll/rfiddll.h"
-//#include "dll/pincodedll.h"
-//#include "dll/dllmysql.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,17 +19,17 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    int valitaTili () {return idTili;}
 
 
 private slots:
     void login(QString);
-    void on_pushButton_clicked();
 
     void on_btnSammuta_clicked();
 
 public slots:
     void validatePIN(QString pin);
+
+    int valitaTili () {return idTili;}
 
 signals:
 

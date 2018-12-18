@@ -21,7 +21,6 @@ public:
     int DLLMYSQLSHARED_EXPORT invoiceCount(int);
     int DLLMYSQLSHARED_EXPORT getInvoiceId(int);
     void DLLMYSQLSHARED_EXPORT getInvoiceDetails(int);
-    //double DLLMYSQLSHARED_EXPORT getInvoiceDetailsD(int);
     bool DLLMYSQLSHARED_EXPORT payInvoice(int,int,double);
     void DLLMYSQLSHARED_EXPORT getDonateInfo(int);
     bool DLLMYSQLSHARED_EXPORT payDonation(int,int,int); //mita, milta,paljonko
@@ -32,11 +31,6 @@ signals:
     void DLLMYSQLSHARED_EXPORT sendViite(QString);
     void DLLMYSQLSHARED_EXPORT lahetaSumma(double);
 
-    //void DLLMYSQLSHARED_EXPORT sendDonateInfo(QString,QString,QString);
-    //void DLLMYSQLSHARED_EXPORT lahetatiedot(QString,QString,QString);
-
-private:
-    //QString arvo1 = "";
 };
 
 #endif // DLLMYSQL_H

@@ -21,13 +21,18 @@ public:
     explicit SignedInDialog(QWidget *parent = nullptr);
     ~SignedInDialog();
 
+public slots:
     void alustaTiedot(QString kayt, int id) {Kayttaja = kayt; idTili=id; asetaOtsikko();}
+
     void asetaOtsikko();
+
     void showTable();
 
 signals:
     void sendBalance(double);
+
     void lahetaKayttaja(QString);
+
     void lahetaTiliId(int);
 
 private slots:
@@ -55,6 +60,7 @@ private:
     Maksa *olioMaksa;
     QPushButton *btnPoistu;
     QWidget *tableWindow;
+
     int idTili;
 
     QString Kayttaja = "Default";

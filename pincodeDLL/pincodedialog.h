@@ -43,6 +43,7 @@ signals:
 
 private:
     Ui::PincodeDialog *ui;
+
     QString pin="";
     QString prv="*";
 };

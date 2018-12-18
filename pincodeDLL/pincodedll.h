@@ -12,9 +12,6 @@ public:
     PincodeDLL();
     void PINCODEDLLSHARED_EXPORT getPIN(QWidget *);
 
-private:
-    void initialise();
-
 private slots:
     void receivedPIN(QString);
 

@@ -1,8 +1,6 @@
 #include "saldo.h"
 #include "ui_saldo.h"
 #include <QDebug>
-#include <QtGui>
-#include <QVBoxLayout>
 
 Saldo::Saldo(QWidget *parent) :
     QDialog(parent),
@@ -31,6 +29,7 @@ void Saldo::naytaTapahtumat(int tiliId)
 {
      ui->tableView->setModel(olioSaldoMysqlDLL->showTransactions(tiliId,5));
 }
+
 void Saldo::on_btnTakaisin_clicked()
 {
     ui->lblOmistaja->setText("Tilinomistaja:    "); //Kentät tyhjennettävä valmiiksi seuraavaan kertaan.

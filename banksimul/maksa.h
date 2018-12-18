@@ -16,12 +16,13 @@ public:
     explicit Maksa(QWidget *parent = nullptr);
     ~Maksa();
 
-    void asetaSaldo(double s){saldo=s;}
-    void asetaTili(int i){idTili = i;}
-    void asetaLaskujenMaara(int m){laskujenMaara=m;}
 
 public slots:
+    void asetaSaldo(double s){saldo=s;}
 
+    void asetaTili(int i){idTili = i;}
+
+    void asetaLaskujenMaara(int m){laskujenMaara=m;}
 
 private slots:
     void on_btnPeruuta_clicked();
@@ -35,8 +36,11 @@ private slots:
     void on_btnMaksa_clicked();
 
     void asetaSumma(double i){summa=i;}
+
     void asetaTili(QString a){tilinumero=a;}
+
     void asetaViite(QString a){viite=a;}
+
     void asetaSaaja(QString a){saaja=a;}
 
 private:
